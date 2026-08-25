@@ -1,0 +1,66 @@
+{
+  "name": "@cynos-ai/rules",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Evidence-tested judgment rules for coding agents.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./pi/sdk": {
+      "types": "./dist/pi/sdk.d.ts",
+      "import": "./dist/pi/sdk.js"
+    },
+    "./pi/cli": {
+      "types": "./dist/pi/cli.d.ts",
+      "import": "./dist/pi/cli.js"
+    },
+    "./manifest": "./rules/manifest.json"
+  },
+  "files": [
+    "dist/",
+    "rules/",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./dist/pi/cli.js"
+    ]
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run check && npm run build",
+    "check": "npm run typecheck && npm test && npm run check:rules && npm run check:docs && npm run check:links && npm run check:harbor",
+    "check:docs": "tsx scripts/check-docs.ts",
+    "check:links": "tsx scripts/check-links.ts",
+    "check:harbor": "python -m py_compile integrations/harbor/src/cynos_rules_harbor/*.py && cd integrations/harbor && uv lock --check && uv run python -m unittest discover -s tests",
+    "check:rules": "tsx scripts/check-rules.ts",
+    "test": "tsx --test tests/**/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "coding-agent",
+    "pi-package",
+    "prompt-rules"
+  ],
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "0.84.3",
+    "@types/node": "24.10.1",
+    "js-tiktoken": "1.0.21",
+    "tsx": "4.23.12",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}

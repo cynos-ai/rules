@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cynos-ai/rules/blob/main/rules/manifest.schema.json",
+  "title": "Cynos Rules manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "package",
+    "packageVersion",
+    "ruleset",
+    "piVersion",
+    "digestAlgorithm",
+    "digest",
+    "tokenCount",
+    "rules"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "package": { "const": "@cynos-ai/rules" },
+    "packageVersion": { "type": "string", "minLength": 1 },
+    "ruleset": { "const": "core" },
+    "piVersion": { "const": "0.84.3" },
+    "digestAlgorithm": { "const": "sha256" },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "tokenCount": { "type": "integer", "minimum": 1, "maximum": 400 },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CR-[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*-[0-9]{3}$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^rules/core/[^/]+\\.md$"
+          }
+        }
+      }
+    }
+  }
+}
