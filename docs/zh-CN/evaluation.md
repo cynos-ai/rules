@@ -1,4 +1,4 @@
-<!-- source-sha256:166f50f33d7054326ae043905d8cc1ff42f7fd4435f69f1b25ed928669717e58 -->
+<!-- source-sha256:ab70fda026c1b8c2a349aedd50617ba988943a20c06f19e35b7ebea766cf3432 -->
 # 评测指南
 
 状态：**集成骨架；尚未声明任何付费 Benchmark 结果**
@@ -49,15 +49,22 @@ Harbor 固定为 `0.22.0`；Pi 固定为 `0.84.3`。
 
 ## 挂载
 
-在 `integrations/harbor` 中创建只读 Mount 值：
+不要直接挂载 Checkout：仅供 Operator 使用的 `.env` 绝不能暴露给 Agent Container。应先创建干净的只读 Staging 副本：
 
 ```bash
 export RULES_ROOT="$(git rev-parse --show-toplevel)"
-MOUNTS="$(python -c 'import json, os; print(json.dumps([{"type":"bind","source":os.environ["RULES_ROOT"],"target":"/opt/cynos-rules","read_only":True}]))')"
+export EVAL_MOUNT="$(mktemp -d /tmp/cynos-rules-eval-mount.XXXXXX)"
+rsync -a --delete \
+  --exclude='.env' --exclude='.env.*' --exclude='.git/' \
+  --exclude='node_modules/' --exclude='integrations/harbor/.venv/' \
+  --exclude='integrations/harbor/results/' \
+  "$RULES_ROOT/" "$EVAL_MOUNT/"
+test ! -e "$EVAL_MOUNT/.env"
+MOUNTS="$(python -c 'import json, os; print(json.dumps([{\"type\":\"bind\",\"source\":os.environ[\"EVAL_MOUNT\"],\"target\":\"/opt/cynos-rules\",\"read_only\":True}]))')"
 export MOUNTS
 ```
 
-不要挂载 `~/.pi`、维护者 Home 目录或本仓库的可写副本。
+不要挂载 `~/.pi`、维护者 Home 目录、包含凭据的 Checkout 或本仓库的可写副本。
 
 ## 单题兼容性运行
 
@@ -67,15 +74,16 @@ Baseline：
 
 ```bash
 uv run harbor run \
-  -d swe-bench/swe-bench-verified \
+  -d swebench-verified@1.0 \
   -i '<task-name>' \
   -a cynos_rules_harbor.agent:CynosRulesPi \
   -m deepseek/deepseek-v4-flash \
   --ak version=0.84.3 \
   --ak thinking=low \
   --ak rules_enabled=false \
+  --env-file "$RULES_ROOT/.env" \
   --mounts "$MOUNTS" \
-  -k 1 -n 1 \
+  -k 1 -n 1 -y \
   --jobs-dir results/pilot-baseline
 ```
 
@@ -98,7 +106,7 @@ uv run harbor run \
 - 绝不在重试或 Patch 中挑选；
 - 把推理前基础设施失败与 Agent 失败分开分类。
 
-只有在 Baseline Pilot 后，才会按照 `DESIGN.md` 生成并提交 Campaign Task List。不要临时选择任务。
+冻结的 v0 Task List 已提交在 [`evaluation/task-sets/v0/`](../../evaluation/task-sets/v0/)。Harbor Registry Name 是 `swebench-verified@1.0`；其源 Dataset Commit 和 Task-ID Digest 记录在 `evaluation/task-sets/v0/manifest.json` 中。不要临时选择任务，也不要使用其他 Harbor Dataset Version。
 
 ## 无人值守执行
 

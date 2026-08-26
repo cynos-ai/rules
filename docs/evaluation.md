@@ -48,15 +48,22 @@ It also uses an empty container-local `PI_CODING_AGENT_DIR`. The Rules-enabled c
 
 ## Mount
 
-From `integrations/harbor`, create a read-only mount value:
+Do not mount the checkout directly: its operator-only `.env` must never be visible to the Agent container. Build a clean read-only staging copy instead:
 
 ```bash
 export RULES_ROOT="$(git rev-parse --show-toplevel)"
-MOUNTS="$(python -c 'import json, os; print(json.dumps([{"type":"bind","source":os.environ["RULES_ROOT"],"target":"/opt/cynos-rules","read_only":True}]))')"
+export EVAL_MOUNT="$(mktemp -d /tmp/cynos-rules-eval-mount.XXXXXX)"
+rsync -a --delete \
+  --exclude='.env' --exclude='.env.*' --exclude='.git/' \
+  --exclude='node_modules/' --exclude='integrations/harbor/.venv/' \
+  --exclude='integrations/harbor/results/' \
+  "$RULES_ROOT/" "$EVAL_MOUNT/"
+test ! -e "$EVAL_MOUNT/.env"
+MOUNTS="$(python -c 'import json, os; print(json.dumps([{\"type\":\"bind\",\"source\":os.environ[\"EVAL_MOUNT\"],\"target\":\"/opt/cynos-rules\",\"read_only\":True}]))')"
 export MOUNTS
 ```
 
-Do not mount `~/.pi`, a maintainer home directory, or a writable copy of this repository.
+Do not mount `~/.pi`, a maintainer home directory, the checkout containing credentials, or a writable copy of this repository.
 
 ## One-task compatibility run
 
@@ -66,15 +73,16 @@ Baseline:
 
 ```bash
 uv run harbor run \
-  -d swe-bench/swe-bench-verified \
+  -d swebench-verified@1.0 \
   -i '<task-name>' \
   -a cynos_rules_harbor.agent:CynosRulesPi \
   -m deepseek/deepseek-v4-flash \
   --ak version=0.84.3 \
   --ak thinking=low \
   --ak rules_enabled=false \
+  --env-file "$RULES_ROOT/.env" \
   --mounts "$MOUNTS" \
-  -k 1 -n 1 \
+  -k 1 -n 1 -y \
   --jobs-dir results/pilot-baseline
 ```
 
@@ -97,7 +105,7 @@ For a formal task pair:
 - never choose among retries or patches;
 - classify pre-inference infrastructure failures separately from agent failures.
 
-The committed campaign task lists will be generated only after the Baseline Pilot according to `DESIGN.md`. Do not select tasks ad hoc.
+The frozen v0 task lists are committed under [`evaluation/task-sets/v0/`](../evaluation/task-sets/v0/). The Harbor registry name is `swebench-verified@1.0`; its source dataset commit and task-ID digest are recorded in `evaluation/task-sets/v0/manifest.json`. Do not select tasks ad hoc or use a different Harbor dataset version.
 
 ## Unattended execution
 
