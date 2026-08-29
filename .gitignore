@@ -1,11 +1,4 @@
-node_modules/
-**/.venv/
-**/__pycache__/
-dist/
-coverage/
 .env
 .env.*
-!.env.example
 *.log
 .DS_Store
-integrations/harbor/results/
