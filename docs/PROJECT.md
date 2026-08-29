@@ -21,11 +21,13 @@ Cynos Rules 提供一组简短、直接、技术栈无关的工程规则，以�
 ## 关键约定
 
 - 规则正文优先整理自 `~/文档/java-taro-rules/` 的技术栈无关内容，不沿用旧 Cynos Rules 的抽象注入和评测设计；
+- 整套规则使用一个 SemVer 版本，目标项目通过 `docs/rules/VERSION` 记录已安装版本；未带版本但使用旧 `java-taro-rules` 结构的项目视为迁移基线 v0，其仍有效的技术栈规则必须保留；
 - 项目文件规范来自 Cynos 默认项目文件架构约定；
 - 正式分支和开发分支需要明确，默认使用 `main` 和 `develop`；短期分支和 Commit 使用 `feat`、`fix`、`docs` 等类型；是否使用 Pull Request 由项目负责人决定；
+- 本仓库当前采用：短期分支由操作者直接 merge 到 `develop`，只有 `develop → main` 发布使用 Pull Request；
 - 整理旧文档前必须询问用户并展示移动计划；只有过时或已被替代的文档进入 `docs/archive/`，仍有效但无法归类的文档保留原位；
 - 不为了目录完整创建空目录或空文件。
 
 ## 历史决定
 
-仓库曾计划提供 `@cynos-ai/rules`、Pi Adapter 和 Harbor 评测，但从未发布 npm 版本或 GitHub Release。该设计已废弃，历史保留在 Git tag `archive/evidence-rules-v0`，不再维护。
+仓库曾计划提供 `@cynos-ai/rules`、Pi Adapter 和 Harbor 评测，但从未发布 npm 版本或 GitHub Release。该设计已废弃，历史保留在 Git tag `archive/evidence-rules-v0`，不再维护。这里的旧 Runtime 设计 tag 与项目规则迁移基线 v0 是两件事：前者只用于查阅仓库历史，后者表示尚未采用版本文件的 `java-taro-rules` 类项目规则。

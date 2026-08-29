@@ -9,6 +9,7 @@
 docs/
 ├── PROJECT.md
 ├── rules/
+│   ├── VERSION
 │   ├── behavior.md
 │   ├── architecture.md
 │   ├── security.md
@@ -34,6 +35,8 @@ docs/
 `<platform-rule-entry>` 在支持时是根目录 `AGENTS.md`。平台不支持 `AGENTS.md` 时，使用平台原生项目规则文件，并让它引用 `docs/rules/**`。
 
 不要为了目录完整创建空目录、空需求或占位报告。目录和文件在出现真实内容时再创建。
+
+`docs/rules/VERSION` 是例外：安装 Cynos Rules 时必须随规则一起写入，用于后续更新。它只包含当前已完整合并的 SemVer 版本号。项目自己的额外技术栈规则可以继续放在 `docs/rules/`，更新 Cynos Rules 时不得删除或覆盖这些额外文件。
 
 ## `docs/PROJECT.md`
 

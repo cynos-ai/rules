@@ -20,7 +20,18 @@
 
 验收：`AC-CONTENT-01`、`AC-ENTRY-01`、`AC-LAYOUT-01`、`AC-GIT-01` 通过。
 
-## 3. 建立安装入口
+## 3. 建立版本与更新机制
+
+1. 把 `java-taro-rules` 类未版本化规则定义为 v0 迁移基线，不复制为当前通用规则版本；
+2. 将首个通用版本设为 `1.0.0`，写入 `docs/rules/VERSION`；
+3. 建立 `CHANGELOG.md`，记录 v0 迁移说明、1.0.0 内容和 SemVer 规则；
+4. README 提示词读取目标 VERSION；v0 升级保留技术栈规则，正式版本更新比较旧 tag、当前 tag 和本地修改；
+5. 只有完整合并后才更新目标 VERSION，不自动覆盖或降级；
+6. `main` 发布完成后创建 `v1.0.0` tag。
+
+验收：`AC-VERSION-01`、`AC-V0-01` 通过。
+
+## 4. 建立安装入口
 
 1. 重写 README，说明产品定位、规则文件和明确非目标；
 2. 提供可直接复制给目标 AI 的完整提示词；
@@ -30,7 +41,7 @@
 
 验收：`AC-INSTALL-01`、`AC-MIGRATE-01` 通过。
 
-## 4. 删除旧产品实现
+## 5. 删除旧产品实现
 
 删除 npm、TypeScript、Pi Adapter、Manifest、测试、Harbor、Benchmark、旧设计、双语同步、旧 Issue/PR 模板和 CI。保留 MIT License、Git 历史以及本次新文档。
 
@@ -38,13 +49,14 @@
 
 验收：`AC-SCOPE-01`、`AC-HISTORY-01` 通过。
 
-## 5. 验证与合入
+## 6. 验证与合入
 
 1. 检查仓库只剩预期文件；
 2. 搜索 Java/Taro/Pi/Harbor/npm/manifest/benchmark 等残留产品内容；
 3. 检查 Markdown 内部链接和目录示例；
-4. 使用无历史上下文的 AI 阅读 README 和规则，回答安装、迁移、Git 和平台兼容问题；
+4. 使用无历史上下文的 AI 阅读 README 和规则，回答安装、版本更新、v0 迁移、Git 和平台兼容问题；
 5. 修复歧义后提交；
-6. 提交完成后由项目负责人决定本次通过 PR 还是直接 merge 合入 `develop`，再由 `develop` 发布到 `main`；在确认前不自行合并。
+6. 项目负责人已选择：短期分支直接 merge 到 `develop`，只有 `develop → main` 发布使用 PR；
+7. 发布 PR 合并后创建 `v1.0.0` tag，并更新 GitHub 描述。
 
-验收：全部 AC 通过，提交分支工作区干净；合入后远程分支和 GitHub 描述符合新定位。
+验收：全部 AC 通过，提交分支工作区干净；合入后远程分支、发布 tag 和 GitHub 描述符合新定位。
