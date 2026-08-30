@@ -16,12 +16,13 @@ Cynos Rules 提供一组简短、直接、技术栈无关的工程与沟通规�
 
 项目只维护 Markdown 规则和 README 安装提示词，不提供 npm 包、SDK、CLI、Pi/Harness Adapter、运行时注入、规则 Manifest、评测平台或模型绑定。
 
-目标项目已有规则优先保留。安装 AI 必须合并而不是覆盖；目标平台不支持 `AGENTS.md` 时，由该平台 AI 选择原生规则入口，并让它引用 `docs/rules/**`。
+目标项目已有规则优先保留。安装 AI 必须合并而不是覆盖；目标平台不支持 `AGENTS.md` 时，由该平台 AI 选择原生规则入口，并让它引用 `docs/rules/**`。平台规则入口中的 Cynos 内容使用带版本的托管区块，更新只能替换确认属于 Cynos 的旧内容，区块外项目内容不得改写。
 
 ## 关键约定
 
 - 工程规则优先整理自 `~/文档/java-taro-rules/` 的技术栈无关内容，不沿用旧 Cynos Rules 的抽象注入和评测设计；
 - 沟通规则默认适用于大部分面向用户的自然语言回复，只规定如何简洁、完整地组织输出，不引入对话工作流；其核心参考 Cynos Guidance v0.1 和 Caveman 的精确压缩、清晰度保护思想；
+- 根 `AGENTS.md` 只有 `cynos-rules:begin/end` 托管区块可以安装到目标项目；首次安装保留入口原文，更新通过旧 tag 区分上游旧内容与本地修改；
 - 整套规则使用一个 SemVer 版本，目标项目通过 `docs/rules/VERSION` 记录已安装版本；未带版本但使用旧 `java-taro-rules` 结构的项目视为迁移基线 v0，其仍有效的技术栈规则必须保留；
 - 项目文件规范来自 Cynos 默认项目文件架构约定；
 - 正式分支和开发分支需要明确，默认使用 `main` 和 `develop`；短期分支和 Commit 使用 `feat`、`fix`、`docs` 等类型；是否使用 Pull Request 由项目负责人决定；
