@@ -1,8 +1,11 @@
 # AGENTS.md
 
-本仓库维护技术栈无关的项目规则。当前版本记录在 `docs/rules/VERSION`。修改前先阅读 `docs/PROJECT.md`、当前需求目录和与任务相关的 `docs/rules/**`。
+本仓库维护技术栈无关的项目规则。当前版本记录在 `docs/rules/VERSION`。修改前先阅读 `docs/PROJECT.md`、当前需求目录和与任务相关的 `docs/rules/**`。安装到其他项目时只复制下面的 Cynos Rules 托管区块，不复制本段仓库说明。
 
-## 按任务读取
+<!-- cynos-rules:begin version=1.2.0 -->
+## Cynos Rules
+
+### 按任务读取
 
 | 任务 | 读取 |
 |---|---|
@@ -12,10 +15,10 @@
 | 认证、权限、Secret、输入、日志、外部数据 | `docs/rules/security.md` |
 | 检查、测试、评审、准备提交 | `docs/rules/review.md` |
 | 建立项目、整理文档、创建需求工件 | `docs/rules/project-layout.md` |
-| 安装、更新或迁移 Rules | `README.md`、`CHANGELOG.md`、`docs/rules/VERSION` |
+| 安装、更新或迁移 Rules | `cynos-ai/rules` 最新正式 tag 中的 `README.md`、`CHANGELOG.md`，以及本项目 `docs/rules/VERSION` |
 | 分支、Commit、合并、发布 | `docs/rules/git.md` |
 
-## 每次任务的底线
+### 每次任务的底线
 
 - 面向用户先给直接答案、判断或结果，只补必要说明，不叙述无价值的工具过程。
 - 先阅读相关代码、文档和测试，不能用猜测代替项目事实。
@@ -26,3 +29,4 @@
 - 遇到会改变产品行为、公共接口、安全、数据、成本或不可逆方向的选择时，一次只问用户一个关键问题，并提供推荐答案。
 
 目标项目已有规则和明确用户决定优先。发生冲突时先指出冲突，不能静默覆盖。规则未覆盖的情况跟随项目已有做法。
+<!-- cynos-rules:end -->
