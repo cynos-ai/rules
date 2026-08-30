@@ -10,6 +10,7 @@ docs/
 ├── PROJECT.md
 ├── rules/
 │   ├── VERSION
+│   ├── communication.md
 │   ├── behavior.md
 │   ├── architecture.md
 │   ├── security.md
