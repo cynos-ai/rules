@@ -4,7 +4,7 @@
 
 ## 项目目标
 
-Cynos Rules 提供一组简短、直接、技术栈无关的工程规则，以及 Cynos 默认项目文件和 Git 组织约定。使用者不安装软件，只需让 AI 把 `AGENTS.md` 和 `docs/rules/**` 合并到目标项目的对应位置。
+Cynos Rules 提供一组简短、直接、技术栈无关的工程与沟通规则，以及 Cynos 默认项目文件和 Git 组织约定。使用者不安装软件，只需让 AI 把 `AGENTS.md` 和 `docs/rules/**` 合并到目标项目的对应位置。
 
 ## 主要用户
 
@@ -20,7 +20,8 @@ Cynos Rules 提供一组简短、直接、技术栈无关的工程规则，以�
 
 ## 关键约定
 
-- 规则正文优先整理自 `~/文档/java-taro-rules/` 的技术栈无关内容，不沿用旧 Cynos Rules 的抽象注入和评测设计；
+- 工程规则优先整理自 `~/文档/java-taro-rules/` 的技术栈无关内容，不沿用旧 Cynos Rules 的抽象注入和评测设计；
+- 沟通规则默认适用于大部分面向用户的自然语言回复，只规定如何简洁、完整地组织输出，不引入对话工作流；其核心参考 Cynos Guidance v0.1 和 Caveman 的精确压缩、清晰度保护思想；
 - 整套规则使用一个 SemVer 版本，目标项目通过 `docs/rules/VERSION` 记录已安装版本；未带版本但使用旧 `java-taro-rules` 结构的项目视为迁移基线 v0，其仍有效的技术栈规则必须保留；
 - 项目文件规范来自 Cynos 默认项目文件架构约定；
 - 正式分支和开发分支需要明确，默认使用 `main` 和 `develop`；短期分支和 Commit 使用 `feat`、`fix`、`docs` 等类型；是否使用 Pull Request 由项目负责人决定；
