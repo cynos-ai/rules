@@ -1,8 +1,8 @@
 # Cynos Rules
 
-一组可由 AI 安装到项目中的通用工程规则和项目文件约定。
+一组可由 AI 安装到项目中的通用工程、沟通和项目文件规则。
 
-Cynos Rules 只提供 Markdown，不需要安装 npm 包、CLI、SDK 或 Harness Adapter。规则主要整理自经过实际使用的 `java-taro-rules`，删除了 Java、Spring、Taro 等技术栈内容，并加入 Cynos 默认项目文件和 Git 约定。
+Cynos Rules 只提供 Markdown，不需要安装 npm 包、CLI、SDK 或 Harness Adapter。工程规则主要整理自经过实际使用的 `java-taro-rules`，删除了 Java、Spring、Taro 等技术栈内容；沟通规则吸收 Cynos Guidance v0.1 与 Caveman 中结果优先、精确压缩和清晰度保护的核心思想；同时加入 Cynos 默认项目文件和 Git 约定。
 
 ## 包含内容
 
@@ -12,6 +12,7 @@ CHANGELOG.md
 
 docs/rules/
 ├── VERSION
+├── communication.md
 ├── behavior.md
 ├── architecture.md
 ├── security.md
@@ -21,6 +22,7 @@ docs/rules/
 ```
 
 - `VERSION`：目标项目当前已完整合并的 Rules 版本；
+- `communication.md`：大部分用户沟通的简洁、完整输出组织；
 - `behavior.md`：理解、修改、Debug、重构、优化和完成标准；
 - `architecture.md`：职责、依赖、接口、复杂度和高风险变化；
 - `security.md`：Secret、输入、权限、日志、数据和外部系统；
@@ -52,6 +54,7 @@ Cynos Rules 整套规则共用一个 [SemVer](https://semver.org/lang/zh-CN/) �
 
 目标：
 - 安装或更新 Cynos Rules 的平台规则入口、docs/rules/** 和 docs/rules/VERSION；
+- 让大部分面向用户的自然语言回复默认参考 docs/rules/communication.md，同时保留正式产物自身格式；
 - 保留当前项目已有的技术栈、命令、架构、安全和协作约定；
 - 根据当前项目事实生成或更新 docs/PROJECT.md；
 - 不安装 npm 包、CLI、SDK、Adapter 或运行时代码；
@@ -73,6 +76,7 @@ Cynos Rules 整套规则共用一个 [SemVer](https://semver.org/lang/zh-CN/) �
    - 从 v0 升级时，提取可由新版通用规则替代的部分，同时保留 Java、Taro、前后端、部署、命令和其他项目特有规则；
    - 从正式版本更新时，比较上游旧 tag → 新 tag 的变化，再把这些变化合并到当前项目，保留本地新增和修改；
    - 保留目标项目已有且更具体的规则和额外规则文件；
+   - 在平台规则入口中把所有面向用户的自然语言回复路由到 docs/rules/communication.md，但不改变代码、文档、Commit、PR、Issue、报告和用户指定格式；
    - 遇到实质冲突时逐项列出并询问我，不能静默覆盖。
 7. 只有 AGENTS/平台入口和全部 docs/rules 内容成功合并、冲突已经解决后，才把新版本写入 docs/rules/VERSION。失败或中途停止时保留原版本。
 8. 根据当前项目代码和文档生成或更新 docs/PROJECT.md。不要复制 Cynos Rules 仓库自己的 docs/PROJECT.md。
@@ -109,7 +113,8 @@ Cynos Rules 整套规则共用一个 [SemVer](https://semver.org/lang/zh-CN/) �
 docs/
 ├── PROJECT.md
 ├── rules/
-│   └── VERSION
+│   ├── VERSION
+│   └── communication.md
 ├── changes/<change-id>/
 │   ├── intent.md
 │   ├── spec.md
@@ -118,7 +123,7 @@ docs/
 └── archive/                # 仅有真实归档内容时出现
 ```
 
-详细规则见 [`docs/rules/project-layout.md`](docs/rules/project-layout.md) 和 [`docs/rules/git.md`](docs/rules/git.md)。
+详细规则见 [`docs/rules/communication.md`](docs/rules/communication.md)、[`docs/rules/project-layout.md`](docs/rules/project-layout.md) 和 [`docs/rules/git.md`](docs/rules/git.md)。
 
 ## 设计边界
 
