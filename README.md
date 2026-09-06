@@ -27,7 +27,7 @@ docs/rules/
 - `architecture.md`：职责、依赖、接口、复杂度和高风险变化；
 - `security.md`：Secret、输入、权限、日志、数据和外部系统；
 - `review.md`：提交前的范围、正确性、安全和验证检查；
-- `project-layout.md`：PROJECT、需求三文件、罗网资产和旧文档整理；
+- `project-layout.md`：PROJECT、需求三文件的职责与精简写作、罗网资产和旧文档整理；
 - `git.md`：正式/开发分支、短期分支、Commit 和 PR 选择；
 - `CHANGELOG.md`：各版本变化和迁移说明，不复制到目标项目。
 
@@ -38,7 +38,7 @@ docs/rules/
 根 `AGENTS.md` 使用一个带版本的 Cynos 托管区块：
 
 ```markdown
-<!-- cynos-rules:begin version=1.2.0 -->
+<!-- cynos-rules:begin version=1.3.0 -->
 ## Cynos Rules
 ...
 <!-- cynos-rules:end -->
