@@ -38,7 +38,7 @@ docs/rules/
 根 `AGENTS.md` 使用一个带版本的 Cynos 托管区块：
 
 ```markdown
-<!-- cynos-rules:begin version=1.2.0 -->
+<!-- cynos-rules:begin version=1.3.0 -->
 ## Cynos Rules
 ...
 <!-- cynos-rules:end -->

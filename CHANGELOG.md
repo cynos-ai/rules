@@ -2,7 +2,7 @@
 
 Cynos Rules 整套通用规则共用一个 SemVer 版本。目标项目把已完整合并的版本记录在 `docs/rules/VERSION`，本仓库在 `main` 为每个正式版本创建 `v<version>` tag。
 
-## 未发布
+## 1.3.0
 
 明确需求文档的读者、职责和细节边界：Intent 保留用户原意与必要项目补充，Spec 说明供人判断的方案，Plan 提供分阶段实施细则。
 
