@@ -2,7 +2,7 @@
 
 本仓库维护技术栈无关的项目规则。当前版本记录在 `docs/rules/VERSION`。修改前先阅读 `docs/PROJECT.md`、当前需求目录和与任务相关的 `docs/rules/**`。安装到其他项目时只复制下面的 Cynos Rules 托管区块，不复制本段仓库说明。
 
-<!-- cynos-rules:begin version=1.2.0 -->
+<!-- cynos-rules:begin version=1.3.0 -->
 ## Cynos Rules
 
 ### 按任务读取
@@ -14,7 +14,7 @@
 | 架构、模块、依赖、迁移 | `docs/rules/architecture.md` |
 | 认证、权限、Secret、输入、日志、外部数据 | `docs/rules/security.md` |
 | 检查、测试、评审、准备提交 | `docs/rules/review.md` |
-| 建立项目、整理文档、创建需求工件 | `docs/rules/project-layout.md` |
+| 建立项目、整理文档、编写或修改需求工件 | `docs/rules/project-layout.md` |
 | 安装、更新或迁移 Rules | `cynos-ai/rules` 最新正式 tag 中的 `README.md`、`CHANGELOG.md`，以及本项目 `docs/rules/VERSION` |
 | 分支、Commit、合并、发布 | `docs/rules/git.md` |
 
