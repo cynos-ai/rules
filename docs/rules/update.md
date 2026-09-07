@@ -1,75 +1,77 @@
-# 安装、检查与更新 Cynos Rules
+# Installing, Checking, and Updating Cynos Rules
 
-用户要求安装、检查版本、更新或迁移 Cynos Rules 时使用本流程。按上下文识别“更新 rules”“升级 Cynos 规则”“帮我更新 cybos rules”等表达，不要求固定口令；不能确认所指时先问。没有这类请求时，不主动联网检查。只安装 Markdown，不引入 npm 包、CLI、SDK、Adapter、Skill 或自动运行机制。
+Use this workflow when the user requests installation, a version check, an update, or migration of Cynos Rules. Recognize requests such as "update rules," "upgrade Cynos rules," or "help me update cybos rules" from context rather than requiring a fixed phrase; ask first if the reference is unclear. Without such a request, do not proactively check online. Install only Markdown; do not introduce an npm package, CLI, SDK, Adapter, Skill, or automatic execution mechanism.
 
-## 确认请求与正式版本
+## Confirm the Request and Formal Release
 
-- **检查版本**只读：读取本地 `docs/rules/VERSION`、实际规则入口及标记，查询官方版本并报告差异；不安装、不修复、不更新 PROJECT 或任何项目文件。发现新版可提示用户说“帮我更新 Cynos Rules”，不能把检查当成更新授权。
-- **安装、更新或迁移**按下述执行步骤操作。先遵循目标项目已有规则和 Git 约定；用户授权更新不等于授权提交、合并、发布或整理旧文档。
-- 唯一上游是 `https://github.com/cynos-ai/rules`。通过 `https://github.com/cynos-ai/rules/releases/latest`，或 GitHub API `https://api.github.com/repos/cynos-ai/rules/releases/latest` 查询最新正式 Release，确认不是 draft 或 prerelease，并取得其 `tag_name`。不要按 tag 字符串排序猜版本，不使用 develop、短期分支或未经正式发布的 main 内容。
-- 确认 tag 对应的 SemVer、该 tag 的 `docs/rules/VERSION` 与托管区块版本一致；固定此次目标 tag，后续内容都从该 tag 读取，避免操作中途混入另一版。版本比较使用 SemVer，不按字符串大小比较。
-- 检查模式不执行下节写入步骤；用其中的版本和标记识别规则判断本地状态即可。缺失 VERSION 时区分 v0 与未版本化，非法版本、损坏标记或版本冲突报告异常，不自行修复。本地领先时不降级；版本相同时仅表示无版本升级可做，不证明文件未被修改。
-- 更新模式先阅读目标 tag 的本流程与 CHANGELOG，结合本地项目约定执行；旧 tag 没有本流程时使用该 tag 的 README 安装/更新步骤。首次接入或本地缺少本文时也由官方最新正式 tag 的 README 引导，不依赖本地已有本文。无法取得 Release、tag 或必要基线时停止并说明检查或更新不可用，不把网络失败写成“已经最新”，不绕过网络或工具权限。
+- **Version checks are read-only:** read the local `docs/rules/VERSION`, active rule entry, and markers, query the official release, and report differences. Do not install, repair, or update PROJECT or any project file. If a newer version exists, suggest asking "Update Cynos Rules for me"; a check is not authorization to update.
+- **Installation, updates, and migration** follow the execution steps below. First follow the target project's existing rules and Git conventions; authorization to update is not authorization to commit, merge, release, or reorganize old documents.
+- The only upstream is `https://github.com/cynos-ai/rules`. Query the latest formal Release through `https://github.com/cynos-ai/rules/releases/latest` or the GitHub API `https://api.github.com/repos/cynos-ai/rules/releases/latest`, confirm it is neither a draft nor a prerelease, and obtain its `tag_name`. Do not guess versions by sorting tag strings, or use develop, short-lived branches, or main content without a formal release.
+- Confirm that the tag's SemVer, its `docs/rules/VERSION`, and its managed-block version agree. Pin that target tag for this operation and read all subsequent target content from it, avoiding a mix of versions mid-operation. Compare versions using SemVer, not string ordering.
+- Check mode does not execute the write steps in the next section; use their version and marker identification rules only to determine local state. When VERSION is missing, distinguish v0 from unversioned content. Report invalid versions, damaged markers, or version conflicts as anomalies without repairing them. Do not downgrade a newer local version; equal versions mean only that there is no version upgrade to perform, not that files are unmodified.
+- In update mode, first read this workflow and CHANGELOG at the target tag, then follow them together with local project conventions. If an old tag lacks this workflow, use that tag's README installation/update steps. First installation or a missing local guide is also bootstrapped through the official latest formal tag's README, without depending on this file already being present locally. If the Release, tag, or necessary baseline cannot be obtained, stop and explain that the check or update is unavailable. Do not report network failure as "already up to date" or bypass network or tool permissions.
 
-## 执行安装或更新
+## Execute Installation or Update
 
-先记录原版本和本地改动，准备只覆盖本次修改的备份或补丁；不能以重置整个工作区恢复更新。以下步骤只在用户已授权安装或更新时执行，不创建空目录或占位文件，不删除目标项目额外规则，不修改已完成 change 的三文件。
+First record the original version and local changes, and prepare a backup or patch covering only this operation's changes; do not restore an update by resetting the entire workspace. Execute these steps only with user authorization to install or update. Do not create empty directories or placeholder files, delete extra rules in the target project, or change the three files of a completed change.
 
-1. 先阅读当前项目已有的项目规则、README、文档、代码结构、测试和 Git 分支，不要立即写文件。
-2. 读取此次固定的正式 tag 中的根 AGENTS.md、docs/rules/**、CHANGELOG.md，以及合并所需的旧版本 tag。只把 AGENTS.md 中 `cynos-rules:begin` 到 `cynos-rules:end` 的完整区块视为可安装内容，不复制区块外的 Rules 仓库说明。不要使用未发布的 develop 或短期分支。
-3. 判断当前项目已安装版本：
-   - 存在 docs/rules/VERSION 时，读取其中的 SemVer；
-   - 没有 VERSION，但存在旧 java-taro-rules 风格的 AGENTS.md、behavior.md、architecture.md、conventions.md、frontend.md、backend.md 等规则时，视为 v0 迁移基线；
-   - 没有 VERSION 且无法识别来源时，标记为“未版本化”，盘点内容后再合并，不能假定可以覆盖。
-4. 如果本地已安装版本高于最新正式版本，不自动降级，说明情况并停止；如果版本相同，只检查缺失或明确要求修复的内容，不覆盖本地修改。
-5. 识别当前平台实际使用的项目规则入口：
-   - 先读取已有 AGENTS.md、CLAUDE.md 和其他平台规则文件，以及它们之间的引用关系；
-   - 平台支持 AGENTS.md 时优先使用根 AGENTS.md；不支持时选择平台原生入口，并让托管区块引用 docs/rules/**；
-   - 多个入口并存时只修改确认生效的一个；已有入口引用链可以复用时不重复嵌入；
-   - 无法确认生效入口时，说明判断和推荐方案并询问我。
-6. 在临时位置准备平台规则入口的合并结果，暂不写入项目：
-   - 入口不存在时，创建平台原生文件并写入最新完整托管区块；
-   - 入口已存在但没有 Cynos 标记、也没有可确认的旧 Cynos 版本时，保留原文并在不打断 Markdown 结构的位置原样加入最新完整托管区块；即使内容重复也不裁剪区块或用户原文，只报告重复或冲突；
-   - 入口没有标记但 VERSION 指向 1.0/1.1 等旧 Cynos 版本时，读取对应 tag 的 AGENTS.md；只有逐字一致的完整旧 AGENTS，或带标题和完整正文、连续且边界清楚的旧 Cynos 章节，才能替换为新托管区块；单行和零散语句不能证明所有权；无法安全划定边界时不删除原文，先给出迁移计划并询问我；
-   - 入口已有唯一完整托管区块时，读取区块版本；未本地修改则整体替换，存在本地修改则比较旧 tag、新 tag 和本地内容后合并；区块内已有项目规则作为本地修改留在原位置，不自动移到区块外；
-   - begin/end 缺失一端、嵌套、重复、版本非法或区块版本与 VERSION 不一致时停止，不猜测修复；
-   - 任何情况下都不移动、重排、改写或格式化托管区块之外的内容；实质冲突逐项列出并询问我。
-7. 在临时位置合并 docs/rules/**：
-   - 从 v0 升级时保留 Java、Taro、前后端、部署、命令和其他项目特有规则；
-   - 从正式版本更新时，先比较旧、新 tag 的完整规则文件集合，列出上游新增、修改、删除或改名的差异清单，再逐项与本地合并；不能仅依据 Changelog、旧上游与本地的差异或一组文件校验和选择更新范围；
-   - 保留本地新增和修改；上游删除或改名涉及本地内容时先确认，不能因为上游已不存在就删除未知或本地内容；
-   - 保留目标项目已有的额外规则文件，不能整目录覆盖或删除未知文件；
-   - communication.md 默认用于用户自然语言沟通，但不改变代码、文档、Commit、PR、Issue、报告和用户指定格式。
-8. 按以下顺序写入并核对，不能把带新版本的入口、VERSION 和规则文件一起复制到项目：
-   - 先按完整上游差异清单检查临时合并结果，确认每个差异都有处理结果、没有漏项或未解决冲突。除版本外，未被本地修改的受管内容应与目标 tag 一致；有本地修改时核对上游变化已处理、本地内容保留及用户决定落实，不强制整文件等于上游；
-   - 再写入规则正文，暂不写 docs/rules/VERSION。已有合法托管区块时写入合并后的入口正文，但保留原区块版本；首次安装或没有合法旧区块时，原入口暂不改动，不创建临时版本标记；
-   - 从项目实际路径重新读取并按完整清单核对已写内容，不能只检查临时副本或自己选中的修改文件。核对通过前，区块版本和 VERSION 必须保持原值或原先不存在的状态；没有旧区块时，还须确认原入口未变、待写入的临时入口已通过所有权和内容核对；
-   - 上述落盘核对通过后，才执行独立的版本写入步骤：更新已有区块的版本，或写入已核对的首次安装/迁移入口，再写 VERSION；不能在此步骤夹带尚未验证的规则修改。最后回读入口、版本与规则，确认一致后才报告完成；
-   - 任一步核对失败就停止进入下一步。版本写入前失败不提升版本；版本写入中失败则仅恢复本次版本/入口写入到该步骤前的状态，保留原有本地改动，说明实际状态，不报告完成。
-9. 根据当前项目代码和文档生成或更新 docs/PROJECT.md。不要复制 Cynos Rules 仓库自己的 docs/PROJECT.md。
-10. 检查项目是否已经明确正式分支、开发分支、短期分支和 Commit 规则：
-    - 没有既有约定时，推荐 main 为正式分支、develop 为开发分支；
-    - 短期分支使用 feat/*、fix/*、docs/*、refactor/*、test/*、chore/*；
-    - Commit 使用对应的 feat:、fix:、docs:、refactor:、test:、chore: 类型；
-    - 已有其他分支名称时保留名称，只记录职责映射，不自动改名。
-11. 如果项目尚未记录 PR 规则，只问我一个问题：
-    “短期分支合入开发分支，以及开发分支合入正式分支时，是否要求 Pull Request？”
-    给出三个选项：全部使用 PR、只有发布使用 PR、不使用 PR。把我的选择记录到目标项目的托管区块之外或 docs/PROJECT.md，不要替我决定。
-12. 完成规则安装或更新后，单独询问我是否按照 docs/rules/project-layout.md 整理旧文档。没有得到同意前，不移动、合并、归档或删除任何旧文件。
-13. 如果我同意整理，先输出逐文件计划，给每个文件标记：移动、合并、归档、保留或不确定，并说明目标位置和理由。等我再次确认后再操作。
-14. 整理时遵守：
-    - 使用 git mv 或等价方式保留历史；
-    - 能明确归入 docs/PROJECT.md、docs/changes/<change-id>/** 或罗网目录的内容再移动/合并；
-    - 仍有效但不属于最小结构的 API、架构、部署、运维等文档保留原位；
-    - 只有过时、被替代或我明确要求保留为历史的内容进入 docs/archive/；
-    - 不确定时询问，不能删除内容或用模板覆盖已有事实。
-15. 修改完成后执行当前项目适用的检查，并报告：
-    - 原版本、目标版本和最终写入版本；
-    - 使用了哪个平台规则入口，区块外原内容是否保持不变；
-    - 新增、替换、三方合并和保留了哪些通用及项目特有规则；
-    - docs/PROJECT.md 如何生成或更新；
-    - Git/PR 约定；
-    - 移动、归档、保留和未处理的旧文档；
-    - 已执行、未执行、失败或不可用的验证。
+Apply the same conflict test to both the entry and rule files: a text merge reporting overlapping lines is not, by itself, a substantive conflict. Compare the old upstream, new upstream, and local meanings. If translation or moved text causes overlap but the requirements remain compatible, reconstruct the merge in a temporary location, keep local additions verbatim and in place, and continue without asking merely because the text merge failed. If requirements contradict each other or compatibility cannot be established, show the difference, recommend a resolution, and wait for the user before writing any project file. Keeping local text or invoking local precedence does not resolve that conflict or authorize a version-only update or a completion claim.
 
-先在临时位置准备合并结果并检查差异，再写入项目；不能把文本合并无冲突当成项目规则无语义冲突。更新本文也采用同样的三方合并，不把本地修订当成可以覆盖的安装脚本。中断后报告实际已写入的文件及版本，恢复仅针对本次修改并保留原有未提交内容；版本不得领先于实际已完成的规则合并。
+1. Read the current project's existing rules, README, documentation, code structure, tests, and Git branches before writing any files.
+2. Read the root AGENTS.md, docs/rules/**, and CHANGELOG.md from the pinned formal tag, along with old-version tags needed for merging. Only the complete block from `cynos-rules:begin` to `cynos-rules:end` in AGENTS.md is installable; do not copy the Rules repository instructions outside it. Do not use unreleased develop or short-lived branches.
+3. Identify the currently installed version:
+   - If docs/rules/VERSION exists, read its SemVer;
+   - If VERSION is absent but old java-taro-rules-style AGENTS.md, behavior.md, architecture.md, conventions.md, frontend.md, backend.md, or similar rules exist, treat them as the v0 migration baseline;
+   - If VERSION is absent and the source is unrecognizable, mark the content "unversioned" and inventory it before merging; do not assume it can be overwritten.
+4. If the installed local version is newer than the latest formal release, do not downgrade automatically; explain and stop. If versions match, check only missing content or explicitly requested repairs, without overwriting local edits.
+5. Identify the project rule entry actually used by the current platform:
+   - Read existing AGENTS.md, CLAUDE.md, other platform rule files, and their reference relationships first;
+   - Prefer the root AGENTS.md if supported; otherwise choose the platform's native entry and have the managed block reference docs/rules/**;
+   - If multiple entries coexist, modify only one confirmed active entry; reuse existing reference chains rather than embedding duplicates;
+   - If the active entry cannot be confirmed, explain the assessment and recommendation, and ask the user.
+6. Prepare the merged platform rule entry in a temporary location without writing it to the project yet:
+   - If the entry does not exist, create the platform-native file with the complete latest managed block;
+   - If an entry exists without Cynos markers or a confirmable old Cynos version, preserve its original text and insert the complete latest block unchanged at a location that does not break Markdown structure. Even if content is duplicated, do not trim the block or the user's original text; only report duplicates or conflicts;
+   - If an unmarked entry has VERSION pointing to an old Cynos version such as 1.0/1.1, read that tag's AGENTS.md. Replace only an exact match to the complete old AGENTS, or contiguous old Cynos sections with headings, full bodies, and clear boundaries. Single lines and scattered statements do not prove ownership. If boundaries cannot be safely established, do not delete the original text; present a migration plan and ask the user first;
+   - If the entry has one complete managed block, read its version. Replace it as a whole only if it has no local edits; otherwise merge by comparing the old tag, new tag, and local content. Treat project rules already inside the block as local edits and leave them in place rather than automatically moving them outside;
+   - Stop if begin/end is missing either side, nested, duplicated, has an invalid version, or disagrees with VERSION; do not guess a repair;
+   - Never move, reorder, rewrite, or reformat content outside the managed block. List substantive conflicts individually and ask the user.
+7. Merge docs/rules/** in a temporary location:
+   - When upgrading from v0, preserve Java, Taro, frontend, backend, deployment, command, and other project-specific rules;
+   - When updating from a formal version, first compare the complete old/new tag rule-file sets and inventory upstream additions, modifications, deletions, and renames, then merge each with local content. Do not select the update scope solely from the Changelog, old-upstream-versus-local differences, or a set of file checksums;
+   - Preserve local additions and edits. Confirm first when upstream deletions or renames involve local content; do not delete unknown or local content merely because it no longer exists upstream;
+   - Preserve extra rule files already in the target project; do not overwrite the whole directory or delete unknown files;
+   - communication.md applies by default to natural-language user communication, without changing code, documents, commits, PRs, issues, reports, or user-specified formats.
+8. Write and verify in the following order; do not copy the new-version entry, VERSION, and rule files into the project together:
+   - First check the temporary merge against the complete upstream difference inventory. Confirm that every difference has an outcome, without omissions or unresolved conflicts. Except for versions, managed content without local edits should match the target tag; where local edits exist, verify that upstream changes were handled, local content was preserved, and user decisions were applied, rather than requiring whole-file equality with upstream;
+   - Then write the rule bodies without writing docs/rules/VERSION yet. For an existing valid managed block, write the merged entry body while retaining the original block version. For first installation or without a valid old block, leave the original entry unchanged for now; do not create a temporary version marker;
+   - Reread the written content from actual project paths and check it against the complete inventory, not just temporary copies or self-selected modified files. Until these checks pass, both the block version and VERSION must retain their original values or remain absent if originally absent. Without an old block, also confirm that the original entry is unchanged and the pending temporary entry has passed ownership and content checks;
+   - Only after these on-disk checks pass, perform a separate version-write step: update the existing block's version, or write the verified first-installation/migration entry, then write VERSION. Do not include unverified rule changes in this step. Finally reread the entry, version, and rules, and report completion only after confirming consistency;
+   - If any check fails, stop before the next step. Failure before version writing must not advance versions. Failure during version writing must restore only this step's version/entry writes to their pre-step state, preserving pre-existing local edits. Explain the actual state and do not report completion.
+9. Generate or update docs/PROJECT.md from the current project's code and documentation. Do not copy the Cynos Rules repository's own docs/PROJECT.md.
+10. Check whether the project has already defined release and development branches, short-lived branches, and commit rules:
+    - Without existing conventions, recommend main as the release branch and develop as the development branch;
+    - Use feat/*, fix/*, docs/*, refactor/*, test/*, and chore/* for short-lived branches;
+    - Use corresponding feat:, fix:, docs:, refactor:, test:, and chore: commit types;
+    - Preserve existing alternative branch names and only record their role mapping; do not rename automatically.
+11. If the project has no recorded PR convention, ask just one question:
+    "Are Pull Requests required when merging short-lived branches into the development branch and when merging the development branch into the release branch?"
+    Offer three choices: PRs for all merges, PRs only for releases, or no PRs. Record the user's choice outside the target project's managed block or in docs/PROJECT.md; do not decide for the user.
+12. After installing or updating the rules, separately ask whether to reorganize old documents according to docs/rules/project-layout.md. Without consent, do not move, merge, archive, or delete any old files.
+13. If the user agrees to reorganize, first present a file-by-file plan, marking each file as move, merge, archive, keep, or uncertain, with its destination and reason. Wait for confirmation again before acting.
+14. When reorganizing:
+    - Use git mv or an equivalent approach to preserve history;
+    - Move/merge only content clearly belonging in docs/PROJECT.md, docs/changes/<change-id>/**, or LuoWang directories;
+    - Keep still-valid API, architecture, deployment, operations, and other documents outside the minimal structure in their current locations;
+    - Only obsolete, superseded, or explicitly user-designated historical content goes into docs/archive/;
+    - Ask when uncertain; do not delete content or replace existing facts with a template.
+15. After making changes, run the applicable project checks and report:
+    - The original version, target version, and version finally written;
+    - Which platform rule entry was used and whether its original outside-block content is unchanged;
+    - Which general and project-specific rules were added, replaced, three-way merged, or retained;
+    - How docs/PROJECT.md was generated or updated;
+    - Git/PR conventions;
+    - Old documents moved, archived, kept, or left unhandled;
+    - Verification performed, not performed, failed, or unavailable.
+
+Prepare the merge in a temporary location and inspect differences before writing to the project; a conflict-free text merge does not prove the absence of semantic conflicts in project rules. Update this guide through the same three-way merge, rather than treating local revisions as an install script that may be overwritten. After interruption, report the files and versions actually written. Recovery must cover only this operation's changes and preserve pre-existing uncommitted content; versions must not get ahead of the rule merge actually completed.

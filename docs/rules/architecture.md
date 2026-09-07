@@ -1,32 +1,32 @@
-# 架构规则
+# Architecture Rules
 
-## 跟随现有系统
+## Follow the Existing System
 
-- 先识别当前由哪个模块、服务或流程负责这件事，再决定修改位置。
-- 现有负责人能够自然承载新行为时，扩展它；不要平行创建第二套实现。
-- 保持已有依赖方向和边界。发现绕层、循环依赖或隐式共享状态时，先确认根因，不用新的全局状态掩盖问题。
-- 稳定系统优先局部演进，除非现有边界已经无法保证正确性，否则不推翻重写。
+- Identify which module, service, or process currently owns the responsibility before deciding where to make changes.
+- Extend the existing owner when it can naturally accommodate the new behavior; do not create a second parallel implementation.
+- Preserve existing dependency directions and boundaries. If you find bypassed layers, circular dependencies, or implicit shared state, confirm the root cause rather than masking it with new global state.
+- Prefer local evolution of stable systems; do not rewrite them unless existing boundaries can no longer ensure correctness.
 
-## 职责与接口
+## Responsibilities and Interfaces
 
-- 一个职责应有明确负责人和单一事实源，避免同一规则散落在多个位置同步维护。
-- 模块对外暴露完成职责所需的最小接口，内部细节不泄漏给调用方。
-- 跨边界数据、错误和状态应当明确，不能依靠调用顺序或隐藏约定维持正确性。
-- 公共接口、持久化数据、配置和事件格式发生变化时，说明兼容影响和迁移方式。
+- Each responsibility should have a clear owner and a single source of truth; avoid maintaining the same rule across multiple locations.
+- Expose only the minimum interface needed to fulfill a module's responsibility; do not leak internal details to callers.
+- Make cross-boundary data, errors, and state explicit. Do not rely on call ordering or hidden conventions for correctness.
+- Explain compatibility effects and migration approaches when public interfaces, persisted data, configuration, or event formats change.
 
-## 控制复杂度
+## Control Complexity
 
-- 只为已经发生的需求建立抽象，不为可能出现的宿主、模式、Provider 或流程预留通用框架。
-- 新增层级、服务、队列、缓存或状态机前，先证明现有结构无法简单完整地解决问题。
-- 删除重复能力时先确认调用方和数据迁移，不能只删除表面入口而留下两个事实源。
-- 目录和类名不是架构本身；以职责、数据所有权和可观察行为判断边界。
+- Introduce abstractions only for actual requirements, not general frameworks for possible hosts, modes, providers, or workflows.
+- Before adding a layer, service, queue, cache, or state machine, show that the existing structure cannot solve the problem simply and completely.
+- Before removing duplicate capabilities, confirm caller and data migration; do not merely remove a surface entry point while leaving two sources of truth.
+- Directory and class names are not the architecture itself; judge boundaries by responsibilities, data ownership, and observable behavior.
 
-## 高风险变化
+## High-Risk Changes
 
-涉及认证、权限、支付、公共组件、数据迁移、外部接口或发布流程时：
+For changes involving authentication, authorization, payments, shared components, data migration, external interfaces, or release workflows:
 
-1. 搜索全部已知调用方和依赖；
-2. 明确失败影响和回退方式；
-3. 保持最小权限和数据安全；
-4. 验证成功、失败、中断和恢复路径；
-5. 无法确认关键事实时先停止并询问，而不是猜测后继续。
+1. Search all known callers and dependencies;
+2. Identify failure effects and rollback approaches;
+3. Maintain least privilege and data safety;
+4. Verify success, failure, interruption, and recovery paths;
+5. If key facts cannot be confirmed, stop and ask rather than continuing on a guess.

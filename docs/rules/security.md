@@ -1,29 +1,29 @@
-# 安全规则
+# Security Rules
 
-## Secret 与敏感数据
+## Secrets and Sensitive Data
 
-- 密码、Token、私钥、Cookie、连接凭据和 Secret 只能通过项目认可的 Secret Store、部署 Secret 或环境变量提供。
-- 不把 Secret 写入源码、Git、普通配置、示例数据、测试快照、URL、日志、错误、报告或 API 响应。
-- 提交示例配置时只保留变量名和无效占位值；提交前检查 `.env`、凭据文件和生成物没有进入 Git。
-- 日志和错误只保留定位问题需要的信息，对账号、个人数据、请求头和工具参数做脱敏。
+- Supply passwords, tokens, private keys, cookies, connection credentials, and other secrets only through project-approved secret stores, deployment secrets, or environment variables.
+- Do not put secrets in source code, Git, ordinary configuration, sample data, test snapshots, URLs, logs, errors, reports, or API responses.
+- Commit only variable names and nonfunctional placeholder values in sample configuration; before committing, check that `.env`, credential files, and generated artifacts have not entered Git.
+- Keep only the information needed to diagnose issues in logs and errors; redact account information, personal data, request headers, and tool arguments.
 
-## 输入、权限与数据
+## Input, Permissions, and Data
 
-- 所有外部输入都在可信边界内重新验证，不能只依赖前端或 AI 提示词。
-- 数据库和命令调用使用参数化接口，不能拼接不可信输入。
-- 敏感操作必须在服务端验证身份和权限，并遵循最小权限原则。
-- 文件路径、压缩包、重定向 URL、Webhook 和上传内容要防止越界访问和意外执行。
-- 生产数据、真实用户数据和生产凭据不能用于普通开发、测试或评测。
+- Revalidate all external input inside the trusted boundary; do not rely solely on the frontend or AI prompts.
+- Use parameterized interfaces for database and command calls; do not concatenate untrusted input.
+- Verify identity and permissions on the server for sensitive operations, following least privilege.
+- Guard file paths, archives, redirect URLs, webhooks, and uploads against out-of-bounds access and unintended execution.
+- Do not use production data, real user data, or production credentials for ordinary development, testing, or evaluation.
 
-## 错误与外部系统
+## Errors and External Systems
 
-- 鉴权失败、数据校验失败和依赖失败必须显式返回失败，不能降级成成功。
-- 调用外部系统时设置合理的超时和错误处理；重试必须避免重复扣款、重复创建或数据破坏。
-- 涉及数据删除、迁移或不可逆外部副作用时，提供确认、备份或回退路径。
-- 安全边界依靠权限、隔离、验证和加密实现，不能把“AI 会遵守提示词”当作安全控制。
+- Authentication or authorization failures, data validation failures, and dependency failures must explicitly return failure, not fall back to success.
+- Set reasonable timeouts and error handling for external calls; retries must avoid duplicate charges, duplicate creation, or data corruption.
+- Provide confirmation, backup, or rollback paths for data deletion, migration, or irreversible external side effects.
+- Enforce security boundaries through permissions, isolation, validation, and encryption; do not treat "the AI will follow the prompt" as a security control.
 
-## 发现风险时
+## When Risks Are Found
 
-- 不在公开 Issue、PR 或聊天中粘贴真实凭据和私有数据。
-- 发现疑似泄露时先停止继续传播，撤销或轮换凭据，再通过项目指定的私密渠道报告。
-- 为修复安全问题扩大权限或关闭校验前，必须取得用户明确确认。
+- Do not paste real credentials or private data into public issues, PRs, or chats.
+- If a leak is suspected, first stop further propagation, revoke or rotate the credentials, then report through the project's designated private channel.
+- Obtain explicit user confirmation before broadening permissions or disabling validation to fix a security issue.
