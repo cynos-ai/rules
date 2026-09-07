@@ -16,7 +16,8 @@ docs/
 │   ├── security.md
 │   ├── review.md
 │   ├── project-layout.md
-│   └── git.md
+│   ├── git.md
+│   └── update.md
 ├── changes/
 │   └── <change-id>/
 │       ├── intent.md
