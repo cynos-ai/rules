@@ -4,7 +4,7 @@
 
 ## 项目目标
 
-Cynos Rules 提供一组简短、直接、技术栈无关的工程与沟通规则，以及 Cynos 默认项目文件和 Git 组织约定。使用者不安装软件，只需让 AI 把 `AGENTS.md` 和 `docs/rules/**` 合并到目标项目的对应位置。
+Cynos Rules 提供一组简短、直接、技术栈无关的工程与沟通规则，以及 Cynos 默认项目文件和 Git 组织约定。使用者不安装软件，只需让 AI 把 `AGENTS.md` 和 `docs/rules/**` 合并到目标项目的对应位置。接入更新文档与入口路由后，可用自然语言要求检查版本或更新，不必重复复制长提示词。
 
 ## 主要用户
 
@@ -14,7 +14,7 @@ Cynos Rules 提供一组简短、直接、技术栈无关的工程与沟通规�
 
 ## 产品边界
 
-项目只维护 Markdown 规则和 README 安装提示词，不提供 npm 包、SDK、CLI、Pi/Harness Adapter、运行时注入、规则 Manifest、评测平台或模型绑定。
+项目只维护 Markdown 规则与更新流程。`docs/rules/update.md` 是安装、检查和更新的流程来源，README 提供首次接入短提示词，托管区块按用户意图路由。不提供 npm 包、SDK、CLI、Pi/Harness Adapter、平台 Skill、自动版本检查、运行时注入、规则 Manifest、评测平台或模型绑定。
 
 目标项目已有规则优先保留。安装 AI 必须合并而不是覆盖；目标平台不支持 `AGENTS.md` 时，由该平台 AI 选择原生规则入口，并让它引用 `docs/rules/**`。平台规则入口中的 Cynos 内容使用带版本的托管区块，更新只能替换确认属于 Cynos 的旧内容，区块外项目内容不得改写。
 
