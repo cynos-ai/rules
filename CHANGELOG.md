@@ -2,6 +2,10 @@
 
 Cynos Rules 整套通用规则共用一个 SemVer 版本。目标项目把已完整合并的版本记录在 `docs/rules/VERSION`，本仓库在 `main` 为每个正式版本创建 `v<version>` tag。
 
+## 1.6.0
+
+新增 `docs/rules/update.md`，集中原 README 的安装/更新流程，并通过托管入口识别自然语言请求。检查版本只读，安装或更新仍保留项目规则、按旧新上游与本地内容合并；README 改为首次接入短提示词。旧项目需升级一次入口，不新增 CLI、Skill 或自动检查。
+
 ## 1.5.0
 
 明确 change 的完成边界：实施与必要验证完成并记录结果后，原三文件保留为历史；后续新增、调整或修复另建 change 并引用原需求，不继续扩写旧 Plan。完成后的提交、合并和发布事实留在 Git、PR、Release，不回填原 change。
