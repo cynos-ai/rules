@@ -4,7 +4,7 @@ English | [简体中文](README.zh-CN.md)
 
 Plain Markdown rules for coding assistants: communication, engineering practices, and project workflows. Ask your assistant to merge them into your project—there is no package to install.
 
-The rule files and update guide are currently written in Chinese. This README is available in English and Simplified Chinese.
+The rule files, update guide, and managed entry block are maintained in English only. This README is available in English and Simplified Chinese. User-facing replies still follow the user's primary language.
 
 ## Quick start
 
@@ -60,7 +60,7 @@ Project layout is documented in `project-layout.md`; no empty directories or pla
 Only the complete managed block from the upstream `AGENTS.md` is installed into the active instruction file—not this repository's surrounding instructions:
 
 ```markdown
-<!-- cynos-rules:begin version=1.6.1 -->
+<!-- cynos-rules:begin version=1.6.2 -->
 ## Cynos Rules
 ...
 <!-- cynos-rules:end -->
