@@ -2,33 +2,33 @@
 
 本仓库维护技术栈无关的项目规则。当前版本记录在 `docs/rules/VERSION`。修改前先阅读 `docs/PROJECT.md`、当前需求目录和与任务相关的 `docs/rules/**`。安装到其他项目时只复制下面的 Cynos Rules 托管区块，不复制本段仓库说明。
 
-<!-- cynos-rules:begin version=1.6.1 -->
+<!-- cynos-rules:begin version=1.6.2 -->
 ## Cynos Rules
 
-### 按任务读取
+### Read by Task
 
-| 任务 | 读取 |
+| Task | Read |
 |---|---|
-| 所有面向用户的自然语言回复 | `docs/rules/communication.md` |
-| 写代码、修 Bug、重构、Debug、优化 | `docs/rules/behavior.md` |
-| 架构、模块、依赖、迁移 | `docs/rules/architecture.md` |
-| 认证、权限、Secret、输入、日志、外部数据 | `docs/rules/security.md` |
-| 检查、测试、评审、准备提交 | `docs/rules/review.md` |
-| 建立项目、整理文档、编写或修改需求工件 | `docs/rules/project-layout.md` |
-| 安装、检查版本、更新或迁移 Cynos Rules | `docs/rules/update.md`；缺失时读取 `https://github.com/cynos-ai/rules` 最新正式 Release 对应 tag 的 `README.md` |
-| 分支、Commit、合并、发布 | `docs/rules/git.md` |
+| All user-facing natural-language replies | `docs/rules/communication.md` |
+| Coding, bug fixes, refactoring, debugging, optimization | `docs/rules/behavior.md` |
+| Architecture, modules, dependencies, migration | `docs/rules/architecture.md` |
+| Authentication, authorization, secrets, input, logs, external data | `docs/rules/security.md` |
+| Checks, tests, reviews, preparation for commits | `docs/rules/review.md` |
+| Project setup, document organization, writing or revising requirements artifacts | `docs/rules/project-layout.md` |
+| Installing, checking versions, updating, or migrating Cynos Rules | `docs/rules/update.md`; if absent, read `README.md` at the latest formal Release tag of `https://github.com/cynos-ai/rules` |
+| Branches, commits, merges, releases | `docs/rules/git.md` |
 
-用户说“检查 Cynos Rules 版本”“帮我更新 Cynos Rules”等话时，按意图读取更新流程；结合上下文识别近似表达，指代不明先确认。检查只读，更新需用户提出；没有请求时不自动检查。
+For requests such as "Check the Cynos Rules version" or "Update Cynos Rules for me," read the update workflow based on the user's intent. Recognize similar expressions from context and clarify ambiguous references first. Checks are read-only; updates require a user request. Do not check automatically without a request.
 
-### 每次任务的底线
+### Baseline for Every Task
 
-- 面向用户先给直接答案、判断或结果，只补必要说明，不叙述无价值的工具过程。
-- 先阅读相关代码、文档和测试，不能用猜测代替项目事实。
-- 只处理当前目标，不顺手重构、升级依赖或扩大范围。
-- 优先使用项目已有结构和能力，新增前先搜索。
-- 修改后执行与风险匹配的验证；未执行、失败或不可用必须如实说明。
-- 不提交密码、Token、私钥、`.env` 或其他 Secret，不在日志和错误中暴露它们。
-- 遇到会改变产品行为、公共接口、安全、数据、成本或不可逆方向的选择时，一次只问用户一个关键问题，并提供推荐答案。
+- Give the user a direct answer, judgment, or result first, with only necessary explanation and no unhelpful tool-process narration.
+- Read relevant code, documentation, and tests first; do not substitute guesses for project facts.
+- Handle only the current goal; do not also refactor, upgrade dependencies, or expand the scope.
+- Prefer existing project structure and capabilities; search before adding anything new.
+- After changes, perform risk-appropriate verification and honestly report checks not performed, failed, or unavailable.
+- Do not commit passwords, tokens, private keys, `.env`, or other secrets, or expose them in logs and errors.
+- When a choice would change product behavior, public interfaces, security, data, cost, or an irreversible direction, ask the user one key question at a time and provide a recommendation.
 
-目标项目已有规则和明确用户决定优先。发生冲突时先指出冲突，不能静默覆盖。规则未覆盖的情况跟随项目已有做法。
+The target project's existing rules and explicit user decisions take precedence. Identify conflicts before proceeding; never silently overwrite them. Follow existing project practices where these rules do not cover a situation.
 <!-- cynos-rules:end -->

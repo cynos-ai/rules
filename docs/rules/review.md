@@ -1,42 +1,42 @@
-# 评审与完成检查
+# Review and Completion Checks
 
-## 修改范围
+## Scope
 
-- [ ] 修改只覆盖当前任务，没有无关重构、依赖升级或大面积格式化。
-- [ ] 新增前已经搜索已有实现，职责仍由正确位置负责。
-- [ ] 公共接口、配置、数据格式和兼容影响已经说明。
-- [ ] 临时调试代码、固定假数据、未完成 TODO 和废弃入口已经处理。
+- [ ] Changes cover only the current task, without unrelated refactoring, dependency upgrades, or broad reformatting.
+- [ ] Existing implementations were searched before adding new ones, and responsibility remains in the right place.
+- [ ] Public interface, configuration, data-format, and compatibility effects have been explained.
+- [ ] Temporary debugging code, fixed fake data, unfinished TODOs, and obsolete entry points have been addressed.
 
-## 正确性与失败路径
+## Correctness and Failure Paths
 
-- [ ] 成功、空数据、错误、中断和恢复行为符合要求。
-- [ ] 错误被显式处理，没有空 catch、静默失败或虚假成功。
-- [ ] Bug 修复具备复现证据，并在项目条件允许时补充回归测试。
-- [ ] 数据、Schema、配置或依赖迁移具有兼容、重试和回退考虑。
+- [ ] Success, empty-data, error, interruption, and recovery behavior meet the requirements.
+- [ ] Errors are handled explicitly, without empty catch blocks, silent failures, or false success.
+- [ ] Bug fixes have reproduction evidence and regression tests where project conditions allow.
+- [ ] Data, schema, configuration, or dependency migrations account for compatibility, retries, and rollback.
 
-## 安全
+## Security
 
-- [ ] Git diff、日志、测试快照和示例中没有密码、Token、私钥、`.env` 或个人数据。
-- [ ] 外部输入在可信边界验证，敏感操作在服务端鉴权。
-- [ ] 数据库、命令、路径和外部请求没有拼接不可信输入。
-- [ ] 新权限、Secret 和网络访问没有超过完成任务所需范围。
+- [ ] Git diffs, logs, test snapshots, and examples contain no passwords, tokens, private keys, `.env`, or personal data.
+- [ ] External input is validated at the trusted boundary, and sensitive operations are authenticated and authorized on the server.
+- [ ] Database calls, commands, paths, and external requests do not concatenate untrusted input.
+- [ ] New permissions, secrets, and network access do not exceed what the task requires.
 
-## 验证
+## Verification
 
-- [ ] 已执行与本次风险匹配的项目检查，例如格式检查、类型检查、相关测试或生产构建；低风险修改不机械要求全套命令，不适用项有明确理由。
-- [ ] 用户可观察行为有对应证明，不能只以编译成功代替。
-- [ ] 外部依赖、真实环境或人工步骤未验证时，已经明确标记为未验证或被阻塞。
-- [ ] 验证失败没有被忽略，结果与实际命令输出一致。
-- [ ] 本次实施已按 [需求工件规则](project-layout.md#完成与后续变更) 选用或新建 change；本次 Plan 的阶段状态、验证记录与实际结果一致，未回写已完成的历史 change。
+- [ ] Project checks appropriate to the risk have been run, such as formatting, type checks, relevant tests, or production builds; low-risk changes do not mechanically require every command, and inapplicable checks have explicit reasons.
+- [ ] User-observable behavior has supporting evidence, not merely a successful build.
+- [ ] Unverified external dependencies, real environments, or manual steps are explicitly marked as unverified or blocked.
+- [ ] Verification failures have not been ignored, and the reported results match actual command output.
+- [ ] The implementation selected an existing change or created a new one according to the [requirements artifact rules](project-layout.md#completion-and-later-changes); the current Plan's phase status and verification records match actual results, without rewriting completed historical changes.
 
 ## Git
 
-- [ ] 分支来源和目标符合 `git.md` 以及项目自己的合入决定。
-- [ ] Commit 原子且类型正确，没有把功能、修复、重构和无关格式化混在一起。
-- [ ] 正式和开发分支没有 force-push。
+- [ ] Branch sources and targets follow `git.md` and the project's own merge decisions.
+- [ ] Commits are atomic and correctly typed, without mixing features, fixes, refactoring, and unrelated formatting.
+- [ ] Neither the release branch nor the development branch has been force-pushed.
 
-## 最终三问
+## Final Three Questions
 
-1. 这次修改真的只做了必要的事吗？
-2. 是否存在更简单但同样完整的方案？
-3. 半年后，维护者能从代码、文档和提交历史理解为什么这样做吗？
+1. Does this change really do only what is necessary?
+2. Is there a simpler but equally complete approach?
+3. In six months, can a maintainer understand why this was done from the code, documentation, and commit history?

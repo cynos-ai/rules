@@ -1,64 +1,64 @@
-# Git 规则
+# Git Rules
 
-## 分支职责
+## Branch Roles
 
-项目应明确一个正式分支和一个开发集成分支。没有既有约定时默认使用：
-
-```text
-main       正式分支，只保存准备发布或已经发布的状态
-develop    开发集成分支，汇集下一版本的工作
-```
-
-项目已有 `master`、`dev` 或其他名称时，不自动改名；在项目规则中记录哪个分支承担正式和开发职责。
-
-正式分支和开发分支不 force-push。日常功能和修复不直接提交到正式分支。
-
-## 短期分支
-
-日常工作从最新开发分支创建边界明确的短期分支：
+The project should identify one release branch and one development integration branch. If there is no existing convention, default to:
 
 ```text
-feat/<short-name>       新功能
-fix/<short-name>        缺陷修复
-docs/<short-name>       文档
-refactor/<short-name>   不改变行为的重构
-test/<short-name>       测试
-chore/<short-name>      仓库维护
+main       Release branch: only release-ready or released states
+develop    Development integration branch: work for the next release
 ```
 
-短期分支只处理一件事，完成后合入开发分支并删除。准备发布时，再把开发分支合入正式分支。
+If the project already uses names such as `master` or `dev`, do not rename them automatically. Record which branch serves each role in the project rules.
 
-紧急修复若从正式分支开始，合入正式分支后也要把同一修复同步回开发分支，避免两个长期分支再次出现旧问题。
+Do not force-push the release or development branch. Do not commit routine features or fixes directly to the release branch.
 
-## Commit
+## Short-Lived Branches
 
-Commit 使用与变更性质一致的类型：
+Start routine work on a clearly scoped short-lived branch from the latest development branch:
 
 ```text
-feat: 新功能
-fix: 缺陷修复
-docs: 文档
-refactor: 不改变行为的重构
-test: 测试
-chore: 仓库维护
+feat/<short-name>       New feature
+fix/<short-name>        Bug fix
+docs/<short-name>       Documentation
+refactor/<short-name>   Refactoring without behavior changes
+test/<short-name>       Testing
+chore/<short-name>      Repository maintenance
 ```
 
-- 一个 Commit 只表达一件事；
-- 不把功能、修复、重构和无关格式化混在一起；
-- 描述语言跟随项目约定；
-- 不强制 scope、正文模板、签名或特定 merge 策略；
-- 提交前执行项目要求的检查，不提交已知失败结果。
+A short-lived branch handles one task; merge it into the development branch and delete it when complete. When ready to release, merge the development branch into the release branch.
 
-## Pull Request 由用户决定
+If an urgent fix starts from the release branch, also synchronize the same fix back to the development branch after merging it into the release branch, so the two long-lived branches do not diverge on the old problem.
 
-Rules 不统一强制 Pull Request。项目初始化或安装规则时，AI 应询问：
+## Commits
 
-> 短期分支合入开发分支，以及开发分支合入正式分支时，是否要求 Pull Request？
+Use a commit type that matches the nature of the change:
 
-用户可以选择：
+```text
+feat: New feature
+fix: Bug fix
+docs: Documentation
+refactor: Refactoring without behavior changes
+test: Testing
+chore: Repository maintenance
+```
 
-- 所有合入都使用 PR；
-- 只有发布到正式分支使用 PR；
-- 不使用 PR，由操作者直接 merge。
+- Each commit expresses one thing;
+- Do not mix features, fixes, refactoring, and unrelated formatting;
+- Follow the project's language convention for descriptions;
+- Do not require a scope, body template, signature, or particular merge strategy;
+- Run the project-required checks before committing; do not commit known failing results.
 
-同时可以由用户决定审核人数和 merge、squash、rebase 策略。选择结果写入目标项目规则入口的 Cynos 托管区块之外，或写入 `docs/PROJECT.md`；不能把项目特有决定写进后续会被上游更新的托管区块。后续 AI 直接遵循，不重复询问。用户尚未决定时，AI 可以在短期分支继续工作，但不能自行合入长期分支。
+## Pull Requests Are the User's Decision
+
+Rules does not impose a universal Pull Request requirement. During project initialization or installation, the AI should ask:
+
+> Are Pull Requests required when merging short-lived branches into the development branch and when merging the development branch into the release branch?
+
+The user may choose:
+
+- PRs for all merges;
+- PRs only for releases to the release branch;
+- No PRs; the operator merges directly.
+
+The user may also decide the number of reviewers and whether to use merge, squash, or rebase. Record the decision outside the Cynos managed block in the target project's rule entry, or in `docs/PROJECT.md`; do not put project-specific decisions in a managed block that future upstream updates may replace. Subsequent AI assistants follow the decision without asking again. Until the user decides, the AI may work on a short-lived branch but must not independently merge into a long-lived branch.

@@ -1,8 +1,8 @@
-# 项目文件规范
+# Project File Conventions
 
-本规范只统一需要长期保存、供人类和 AI 共同使用的项目工件，不规定源码、构建产物、单元测试或部署代码的目录。
+These conventions standardize only long-lived project artifacts shared by humans and AI. They do not prescribe directories for source code, build artifacts, unit tests, or deployment code.
 
-## 默认结构
+## Default Structure
 
 ```text
 <platform-rule-entry>
@@ -23,7 +23,7 @@ docs/
 │       ├── intent.md
 │       ├── spec.md
 │       └── plan.md
-├── scenario-testing/                 # 仅接入罗网时出现
+├── scenario-testing/                 # Only when integrated with LuoWang
 │   ├── scenarios/
 │   │   └── <SCENARIO-ID>.md
 │   └── reports/
@@ -31,39 +31,39 @@ docs/
 │           ├── draft-report.md
 │           ├── review.md
 │           └── report.md
-└── archive/                          # 仅存在真实归档内容时出现
+└── archive/                          # Only for actual archived content
 ```
 
-`<platform-rule-entry>` 在支持时是根目录 `AGENTS.md`。平台不支持 `AGENTS.md` 时，使用平台原生项目规则文件，并让它引用 `docs/rules/**`。
+`<platform-rule-entry>` is the root `AGENTS.md` when supported. If the platform does not support `AGENTS.md`, use its native project instruction file and have it reference `docs/rules/**`.
 
-安装到已有规则入口时，只插入根 `AGENTS.md` 中 `cynos-rules:begin` 与 `cynos-rules:end` 之间的完整托管区块。区块之外属于目标项目，不得移动、重排、改写或格式化。后续更新只替换可确认属于旧 Cynos 版本的内容；区块内存在本地修改时也必须合并而非覆盖。新增的项目特有规则放在托管区块之外；已经写在区块内的本地规则更新时留在原位置，不自动移动。
+When installing into an existing rule entry, insert only the complete managed block between `cynos-rules:begin` and `cynos-rules:end` from the root `AGENTS.md`. Content outside the block belongs to the target project and must not be moved, reordered, rewritten, or reformatted. Subsequent updates replace only content confirmed to belong to an old Cynos version; local edits inside the block must also be merged, not overwritten. Put new project-specific rules outside the managed block; during updates, keep local rules already inside the block in their original positions rather than moving them automatically.
 
-不要为了目录完整创建空目录、空需求或占位报告。目录和文件在出现真实内容时再创建。
+Do not create empty directories, empty requirements, or placeholder reports merely to complete the tree. Create directories and files only when there is real content.
 
-`docs/rules/VERSION` 是例外：安装 Cynos Rules 时必须随规则一起写入，用于后续更新。它只包含当前已完整合并的 SemVer 版本号。项目自己的额外技术栈规则可以继续放在 `docs/rules/`，更新 Cynos Rules 时不得删除或覆盖这些额外文件。
+`docs/rules/VERSION` is an exception: it must be written as part of installing Cynos Rules, for use in future updates. It contains only the SemVer version that has been fully merged. Additional project-specific technology-stack rules may remain in `docs/rules/`; Cynos Rules updates must not delete or overwrite those extra files.
 
 ## `docs/PROJECT.md`
 
-`PROJECT.md` 是 AI 使用的项目综合理解，不是目录索引或用户教程。它记录：
+`PROJECT.md` is the AI's integrated understanding of the project, not a directory index or user tutorial. It records:
 
-- 项目解决的问题和主要用户；
-- 关键业务概念和跨模块流程；
-- 主要系统边界和外部依赖；
-- 不符合常规但属于有意设计的决定及原因；
-- 容易被后续 AI 误判的约束和风险；
-- 尚未确认的重要问题。
+- The problem the project solves and its primary users;
+- Key business concepts and cross-module flows;
+- Main system boundaries and external dependencies;
+- Unconventional but intentional design decisions and their reasons;
+- Constraints and risks that later AI assistants may misjudge;
+- Important questions that remain unconfirmed.
 
-不应放入完整目录树、可直接从配置读取的值、冗长 API 清单、临时需求细节、测试运行记录或 Secret。
+This file should not include a full directory tree, values directly available from configuration, lengthy API lists, temporary requirement details, test-run records, or secrets.
 
-该文件由项目理解流程根据目标项目事实生成和更新。安装 Rules 时不能复制 Rules 仓库自己的 `docs/PROJECT.md`。
+Generate and update this file through the project-understanding process using facts from the target project. Do not copy the Rules repository's own `docs/PROJECT.md` when installing Rules.
 
-## 需求工件
+## Requirements Artifacts
 
-每个需求使用稳定的 `<change-id>`。新建需求目录默认采用 `YYYY-MM-DD-<short-name>`，例如 `2026-09-07-change-directory-dates`：
+Use a stable `<change-id>` for each requirement. New requirement directories default to `YYYY-MM-DD-<short-name>`, for example `2026-09-07-change-directory-dates`:
 
-- 日期取需求目录首次创建日，不随修改、延期或发布更新。
-- `<short-name>` 是简短且有辨识度的主题名，不能只用日期。
-- 项目已有明确命名规则或稳定需求编号时优先沿用，不强制叠加日期；已有目录不自动补日期或改名。
+- Use the date the requirement directory was first created; do not update it for edits, delays, or releases.
+- `<short-name>` is a short, distinctive topic name; do not use a date alone.
+- Follow an existing explicit naming convention or stable requirement ID instead when present; do not force a date prefix, add dates to existing directories, or rename them automatically.
 
 ```text
 docs/changes/<change-id>/
@@ -72,121 +72,123 @@ docs/changes/<change-id>/
 └── plan.md
 ```
 
-同一需求的三个文件放在同一个目录，但不写成三份详略不同的同一篇文档：
+Keep the three files for a requirement in the same directory, but do not write three versions of the same document at different levels of detail:
 
-| 文件 | 主要读者与要回答的问题 |
+| File | Primary reader and question to answer |
 |---|---|
-| `intent.md` | 用户：是否准确表达了我想解决的问题？ |
-| `spec.md` | 方案评审者：准备怎么解决，做完是什么样，是否合适？ |
-| `plan.md` | 实施 AI：分几步做，每步改什么，如何证明完成？ |
+| `intent.md` | User: does this accurately express the problem I want to solve? |
+| `spec.md` | Proposal reviewer: how will we solve it, what will the result look like, and is the approach suitable? |
+| `plan.md` | Implementation AI: what are the phases, what changes in each, and how will completion be demonstrated? |
 
-### `intent.md`：原始意图与必要补充
+### `intent.md`: Original Intent and Necessary Context
 
-- 保留用户原始诉求和后续明确补充，包括期望结果、明确约束和不做什么。可以整理口语和重复，不必粘贴全部聊天记录，但不能改变原意或擅自扩大范围。
-- 将理解诉求必需的项目现状、系统限制单独写为项目补充；区分已查证事实、AI 推断和待确认问题，不把 AI 推导出的方案冒充用户要求。
-- 不提前写实现方案、代码位置或执行步骤；用户明确指定的技术要求应保留，并说明来自用户。
+- Preserve the user's original request and subsequent explicit additions, including desired outcomes, explicit constraints, and non-goals. Spoken phrasing and repetition may be cleaned up; there is no need to paste the entire conversation, but do not change its meaning or expand its scope independently.
+- Separately label project context and system limitations needed to understand the request as project context. Distinguish verified facts, AI inferences, and open questions; do not pass off an AI-derived solution as a user requirement.
+- Do not introduce implementation designs, code locations, or execution steps early. Retain technical requirements explicitly specified by the user and identify them as such.
 
-### `spec.md`：供人判断的方案
+### `spec.md`: A Proposal for Human Judgment
 
-- 基于 Intent，说明采用什么方案和做完后的主要变化，只展开本次新增或改变的关键方案与取舍。
-- 主要流程和验收标准保留足以判断方案的关键行为与结果，包括影响产品行为、安全、兼容、数据和外部协作的约定，以及重要异常和失败后果。公共接口或数据格式本身就是需求时，在这里定义，不能留给实施时猜测。
-- 逐项校验、测试矩阵和验证步骤放入 Plan；内部函数、逐文件修改清单和测试命令通常也放在那里，不把 Spec 写成代码勘察记录或实现手册。
+- Based on the Intent, explain the approach and the main changes it will produce; expand only on key design choices and trade-offs introduced or changed by this requirement.
+- Keep enough key behavior and outcomes in the main flow and acceptance criteria to judge the proposal. Include agreements affecting product behavior, security, compatibility, data, and external collaboration, as well as important exceptions and failure consequences. If a public interface or data format is itself the requirement, define it here rather than leaving implementation to guess.
+- Put item-by-item checks, test matrices, and verification steps in the Plan. Internal functions, file-by-file change lists, and test commands usually belong there too; do not turn the Spec into a code-investigation log or implementation manual.
 
-### `plan.md`：分阶段实施细则
+### `plan.md`: Phased Implementation Details
 
-- 在意图和关键方案足够稳定后编写，按依赖和可验证结果划分阶段；小需求可以只有一个阶段，不为凑阶段拆分工作。
-- 每阶段写清目标、必要修改位置、实施步骤和验证方法，按需补充前置依赖、关键风险、迁移或回退要求。细到 AI 结合 Spec、项目规则和代码即可实施，不需要重新决定产品方案，也不预写可在实施时确定的全部函数或代码。
-- 代码勘察只保留实施所需的结论；实施后集中简记阶段状态、阻塞原因和必要证据位置，不堆积命令输出、排障过程或反复声明状态。未验证的结果不能标为完成。
+- Write the Plan once the intent and key design decisions are stable enough. Divide work by dependencies and verifiable outcomes; a small requirement may have just one phase, without artificial subdivisions.
+- For each phase, specify the goal, necessary change locations, implementation steps, and verification method. Add prerequisites, key risks, migration, or rollback requirements as needed. Give enough detail for an AI to implement using the Spec, project rules, and code without redeciding the product design; do not prewrite every function or code detail that can be determined during implementation.
+- Retain only code-investigation conclusions needed for implementation. After implementation, briefly consolidate phase status, blockers, and necessary evidence locations; do not pile up command output, troubleshooting history, or repeated status declarations. Unverified results must not be marked complete.
 
-### 完成与后续变更
+<a id="完成与后续变更"></a>
 
-- 实施期间可在当前范围内修订原 change。该范围的实施和必要验证全部完成时，在 Plan 记录完成结果；此后原 intent/spec/plan 保留为历史，不再改写。
-- 后续新增、调整或缺陷修复都新建 change，引用原 change 并说明承接内容和本次差异；不因主题相关就向已完成的 Plan 追加阶段或重写旧 Spec。
-- 完成后的提交、合并和发布事实记录在 Git、PR 或 Release 中，不回填原 change。
+### Completion and Later Changes
 
-### 三份文档共同的写作要求
+- During implementation, the original change may be revised within its current scope. Once all implementation and necessary verification for that scope are complete, record the result in the Plan; after that, preserve the original intent/spec/plan as history and do not rewrite them.
+- Create a new change for every later addition, adjustment, or bug fix, referencing the original change and explaining what it builds on and what differs. A related topic is not a reason to append phases to a completed Plan or rewrite its old Spec.
+- Record post-completion commits, merges, and releases in Git, PRs, or Releases, not back in the original change.
 
-- 开头直接给出本文件的核心内容，不先铺大段背景、术语或元数据。
-- 栏目按真实内容设置，没有内容就省略，不机械填满模板或写“暂无”占位；不以字数或条目数量判断完整性。
-- 同一事实只在负责它的文件详细说明，其他文件简短引用，包括 Plan 对 Spec 的行为和验收标准的引用。沿用的项目能力、约定及通用工程、安全、Git 规则不重复展开，只写本次特殊要求。
-- 未确认事项保留为待定，建议标为建议，不擅自定为包含或排除；说明待确认点及其影响。依赖该决定的实施步骤标明条件，无关阶段可继续，不以 Plan 偷偷定案。
+### Writing Requirements Shared by All Three Documents
 
-### 写前筛选，写后删减
+- Start with the file's core content, not extensive background, terminology, or metadata.
+- Choose sections for real content. Omit empty ones rather than mechanically filling a template or adding "none yet" placeholders; do not judge completeness by word count or number of items.
+- Explain each fact in detail only in the file responsible for it; use brief references elsewhere, including from the Plan to the Spec's behavior and acceptance criteria. Do not repeat reused project capabilities, conventions, or general engineering, security, and Git rules; describe only this requirement's special needs.
+- Keep unconfirmed matters pending and label recommendations as recommendations; do not decide independently that they are included or excluded. Explain what needs confirmation and its effects. Mark implementation steps that depend on the decision as conditional; independent phases may continue. Do not settle the decision implicitly in the Plan.
 
-写每段前先判断它应留在哪里：
+### Filter Before Writing, Trim Afterward
 
-- Intent：这是用户说的，还是理解诉求必需的项目补充？
-- Spec：删掉这段，会影响人判断本次方案是否合适吗？
-- Plan：这段能帮助 AI 实施、避免具体错误或验证结果吗？
+Before writing a paragraph, decide where it belongs:
 
-三者都不满足就省略，不因为输入资料里有就逐条转写。
+- Intent: did the user say this, or is it project context necessary to understand the request?
+- Spec: would removing this paragraph affect a human's judgment of whether this proposal is suitable?
+- Plan: does this paragraph help an AI implement, avoid a specific mistake, or verify the result?
 
-初稿完成后，再做一次删减：合并重复要求，将实施细节移入 Plan，删除没有具体信息的“可靠、完整、可追溯”等套话和无关防御性声明；最后核对用户要求、关键条件、例外、风险和待定状态没有被删改。直接交付成稿，不附写作过程或删减报告。
+If none applies, omit it; do not transcribe every item merely because it appears in the source material.
 
-### 短正例：通知已读状态
+After the first draft, trim again: combine duplicate requirements, move implementation details to the Plan, and remove empty claims such as "reliable," "complete," or "traceable," along with irrelevant defensive statements. Finally, confirm that user requirements, key conditions, exceptions, risks, and pending decisions were not removed or changed. Deliver the finished documents directly, without a writing-process or trimming report.
 
-以下是虚构的小需求，展示信息取舍，不是必须套用的模板、篇幅上限或目标项目事实。实际需求的复杂度、安全和兼容要求仍以项目为准。
+### Short Positive Example: Notification Read State
+
+This fictional small requirement demonstrates information selection. It is not a mandatory template, length limit, or statement of facts about the target project. The actual project's complexity, security, and compatibility requirements still apply.
 
 **intent.md**
 
 ```markdown
-# 刷新后保留通知已读状态
+# Keep Notifications Read After Refresh
 
-用户诉求：单条通知标为已读后，刷新页面又变成未读。希望保存已读状态，只影响当前账号。是否增加批量已读还没决定。
+User request: marking an individual notification as read is lost after refreshing the page. Persist the read state for the current account only. Whether to add bulk marking is still undecided.
 
-项目补充：已有登录、通知列表和服务端通知存储；已读状态目前只保存在页面内存。
+Project context: login, a notification list, and server-side notification storage already exist; read state currently lives only in page memory.
 ```
 
 **spec.md**
 
 ```markdown
-# 已读状态保存方案
+# Persisting Read State
 
-复用现有通知存储，按账号保存单条通知的已读状态。刷新或重新登录后仍能恢复；服务端校验通知归属，不能修改其他账号的状态。
+Reuse existing notification storage to persist each notification's read state per account. Restore it after refresh or sign-in; the server checks notification ownership and rejects changes to another account's state.
 
-保存失败时提示失败，不显示为已保存。无法恢复的历史已读状态继续按未读展示，不猜测补全。批量已读仍待确认，不影响单条保存的实施。
+Show a failure when saving fails; do not display the state as saved. Historical read state that cannot be recovered remains unread, without guessing. Bulk marking is still pending and does not block individual saves.
 
-验收：刷新与重新登录后状态保留；跨账号修改被拒绝；保存失败不产生虚假成功；旧通知仍可读取。
+Acceptance: state survives refresh and sign-in; cross-account changes are rejected; failed saves do not produce false success; old notifications remain readable.
 ```
 
 **plan.md**
 
 ```markdown
-# 实施计划
+# Implementation Plan
 
-## 一、存储与接口
+## 1. Storage and Interfaces
 
-在现有通知存储及接口中补齐按账号读写已读状态，复用鉴权和归属校验。若需要迁移，为旧记录保留未读默认值，不回填未知历史。
+Add per-account reads and writes of read state to the existing notification storage and interfaces, reusing authentication, authorization, and ownership checks. If migration is needed, keep an unread default for old records without backfilling unknown history.
 
-验证：持久读写、重复标记、跨账号拒绝、写入失败和旧记录兼容测试。
+Verification: tests for persistence, repeated marking, cross-account rejection, write failure, and old-record compatibility.
 
-## 二、列表接入
+## 2. List Integration
 
-通知列表改为读取服务端状态；单条标记成功后更新页面，失败时保留原状态并提示。
+Read server-side state in the notification list; update the page after an individual mark succeeds, and retain the previous state with an error message on failure.
 
-验证：通过 UI 测试标记、刷新、重新登录及保存失败，核对 Spec 的验收结果。
+Verification: UI tests for marking, refresh, sign-in, and save failure, checking the Spec's acceptance outcomes.
 
-批量已读待确认后再补相应步骤，不阻塞上述两阶段。
+Add bulk-marking steps only after confirmation; it does not block these two phases.
 ```
 
-默认不增加 `outcome.md`、`release.md` 或其他状态文件；出现真实需要后再决定。
+Do not add `outcome.md`, `release.md`, or other status files by default; decide only when a real need arises.
 
-## 罗网场景测试资产
+## LuoWang Scenario-Testing Assets
 
-只有接入罗网时才使用：
+Use these only when integrating with LuoWang:
 
 ```text
 docs/scenario-testing/scenarios/
 docs/scenario-testing/reports/
 ```
 
-场景平铺在 `scenarios/`，不建立 suite、catalog、domain 或 journey 目录。最小场景格式为：
+Keep scenarios flat in `scenarios/`; do not create suite, catalog, domain, or journey directories. The minimal scenario format is:
 
 ```markdown
 ---
 id: AUTH-LOGIN-001
-name: 登录状态恢复
-description: 验证用户登录后刷新受保护页面时仍保持登录状态
+name: Restore Login State
+description: Verify that the user remains signed in after refreshing a protected page
 status: approved
 tags:
   - core
@@ -194,50 +196,50 @@ tags:
   - flow:登录
 ---
 
-## 目的
+## Purpose
 ...
 
-## 前置条件
+## Preconditions
 ...
 
-## 步骤
+## Steps
 ...
 
-## 期望
+## Expectations
 ...
 
-## 需要记录
+## Evidence to Record
 ...
 ```
 
-固定字段只有 `id`、`name`、`description`、`status`、`tags`。状态只有 `draft | approved | deprecated`，废弃场景保留文件并标记 `deprecated`，不物理删除历史。
+The only fixed fields are `id`, `name`, `description`, `status`, and `tags`. The only statuses are `draft | approved | deprecated`; keep deprecated scenario files and mark them `deprecated` rather than physically deleting history.
 
-每次正式 Run 在 `reports/<run-id>/` 保存 `draft-report.md`、`review.md` 和 `report.md`。详细执行日志、模型会话、临时计划和 Secret 不进入目标项目 Git。
+For each formal Run, save `draft-report.md`, `review.md`, and `report.md` in `reports/<run-id>/`. Keep detailed execution logs, model sessions, temporary plans, and secrets out of the target project's Git repository.
 
-## 整理已有文档
+## Organizing Existing Documents
 
-安装 Rules 不等于自动整理旧文件。AI 必须先询问用户是否采用本规范整理现有文档。
+Installing Rules does not authorize automatic reorganization of old files. The AI must first ask whether the user wants to apply these conventions to existing documents.
 
-用户同意后：
+After the user agrees:
 
-1. 盘点现有文档并判断它们是否仍然有效；
-2. 提供逐文件计划，标明“移动、合并、归档、保留、不确定”；
-3. 说明合并会保留哪些内容，不能只给出目标目录；
-4. 等用户确认后再使用 `git mv` 或等价方式操作；
-5. 不删除无法归类的内容，不用新模板覆盖已有事实。
+1. Inventory existing documents and assess whether they remain valid;
+2. Provide a file-by-file plan marked "move, merge, archive, keep, or uncertain";
+3. Explain which content a merge will preserve, not just the destination directory;
+4. Wait for user confirmation before using `git mv` or an equivalent operation;
+5. Do not delete unclassified content or overwrite existing facts with a new template.
 
-处理原则：
+Handling principles:
 
-- 能明确归入 PROJECT、某个 change 或场景测试目录的有效内容，可以移动或合并；
-- 仍然有效但不属于最小结构的 API、架构、部署、运维等文档保留原位；
-- 只有已经过时、被替代或用户明确要求保留为历史的文档进入 `docs/archive/`；
-- 是否归档不明确时先问用户；
-- 归档时尽量保留原相对路径，避免同名覆盖。
+- Valid content clearly belonging in PROJECT, a specific change, or the scenario-testing directories may be moved or merged;
+- Still-valid API, architecture, deployment, operations, and similar documents outside the minimal structure remain where they are;
+- Only obsolete, superseded, or explicitly user-designated historical documents go into `docs/archive/`;
+- Ask the user when archive eligibility is unclear;
+- Preserve original relative paths where possible when archiving, to avoid overwriting same-named files.
 
-## 不强制的内容
+## What Is Not Required
 
-- 不规定源码、测试代码、构建和部署目录；
-- 不要求文档目录 README 或手工索引；
-- 不删除项目原有的有效架构、API、测试、部署或运维文档；
-- 不把密码、Token、账号和环境 Secret 写入项目文件；
-- 不要求没有使用罗网的项目创建 `scenario-testing/`。
+- No prescribed directories for source code, test code, builds, or deployment;
+- No required documentation-directory README or manual index;
+- No deletion of the project's existing valid architecture, API, testing, deployment, or operations documents;
+- No passwords, tokens, accounts, or environment secrets in project files;
+- No requirement to create `scenario-testing/` in projects that do not use LuoWang.

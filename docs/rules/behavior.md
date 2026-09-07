@@ -1,53 +1,53 @@
-# 开发行为规则
+# Development Behavior Rules
 
-## 修改前
+## Before Making Changes
 
-- 先查找项目约定需求位置（默认 `docs/changes/`）中的相关 change；有对应记录时，阅读其 intent/spec/plan，并按 [需求工件规则](project-layout.md#完成与后续变更) 核对完成状态，决定继续还是新建。
-- 阅读相关代码、调用方、测试、类型和配置，确认当前行为。
-- 行为不明确时继续查找证据，不能根据文件名、注释或经验猜测。
-- 新增模块、类型、工具、组件或依赖前，先搜索项目中是否已有负责人或可复用实现。
-- 先说清楚当前任务的结果、约束和明确不做什么；只有影响产品行为、安全、数据、成本或不可逆方向的问题才需要询问用户。
+- First find related changes in the project's designated requirements location (default: `docs/changes/`). If a matching record exists, read its intent/spec/plan and check its completion status against the [requirements artifact rules](project-layout.md#completion-and-later-changes) to decide whether to continue it or create a new change.
+- Read the relevant code, callers, tests, types, and configuration to confirm current behavior.
+- If behavior is unclear, keep looking for evidence; do not guess from filenames, comments, or experience.
+- Before adding a module, type, tool, component, or dependency, search the project for an existing owner or reusable implementation.
+- First state the outcome sought, constraints, and explicit non-goals of the current task. Ask the user only about questions that affect product behavior, security, data, cost, or an irreversible direction.
 
-## 修改中
+## While Making Changes
 
-- 跟随项目已有结构和编码方式。理论上更优的方案，不等于应该替换当前稳定做法。
-- 只修改完成当前任务所需的范围，不顺手统一风格、重构无关模块或升级依赖。
-- 优先把行为放进已经负责这件事的位置，不复制规则或绕过原有职责。
-- 分小步修改，每一步保持代码和数据处于可理解、可恢复的状态。
-- 不为假想中的多租户、并发、扩展点或未来需求提前抽象。
-- 不用 TODO、空实现、固定假数据或 Mock 冒充已经完成的核心能力。
-- 错误必须显式处理；不能静默吞掉、空 catch 或把失败伪装成成功。
+- Follow the project's existing structure and coding style. A theoretically better approach is not, by itself, a reason to replace a stable practice.
+- Change only what is needed for the current task. Do not also standardize style, refactor unrelated modules, or upgrade dependencies.
+- Prefer placing behavior where its responsibility already belongs; do not duplicate rules or bypass existing responsibilities.
+- Make small changes, keeping code and data understandable and recoverable at each step.
+- Do not introduce abstractions for hypothetical multi-tenancy, concurrency, extension points, or future needs.
+- Do not pass off TODOs, empty implementations, fixed fake data, or mocks as completed core capabilities.
+- Handle errors explicitly; do not silently swallow them, use empty catch blocks, or disguise failure as success.
 
-## 不同任务的处理方式
+## Handling Different Tasks
 
-### 修 Bug
+### Bug Fixes
 
-1. 先复现或取得足以确认问题的证据；
-2. 找到可信根因后再修改；
-3. 一次只改变一个主要因素；
-4. 项目具备相应测试能力时补充回归测试，避免同类问题再次出现。
+1. Reproduce the issue or obtain enough evidence to confirm it;
+2. Make changes only after finding a credible root cause;
+3. Change only one main factor at a time;
+4. Add regression tests when the project has suitable testing capabilities, to prevent recurrence of the same kind of issue.
 
-### 重构
+### Refactoring
 
-- 先明确哪些外部行为必须保持不变；
-- 在已有测试或等价证据保护下进行；
-- 一次移动一个职责边界，不把功能变化混进重构。
+- First identify which external behaviors must remain unchanged;
+- Work under the protection of existing tests or equivalent evidence;
+- Move one responsibility boundary at a time, without mixing in feature changes.
 
-### 性能优化
+### Performance Optimization
 
-- 先测量并确认瓶颈；
-- 用相同条件比较修改前后；
-- 不为了无法观察的小收益增加长期复杂度。
+- Measure first and confirm the bottleneck;
+- Compare before and after under the same conditions;
+- Do not add long-term complexity for gains too small to observe.
 
-### 数据、Schema、API、配置或依赖迁移
+### Data, Schema, API, Configuration, or Dependency Migration
 
-- 明确向前迁移、兼容和回退方式；
-- 保护现有数据，重复执行不能造成额外破坏；
-- 验证迁移前、迁移中和迁移后的状态。
+- Specify forward migration, compatibility, and rollback approaches;
+- Protect existing data; repeated execution must not cause additional damage;
+- Verify the states before, during, and after migration.
 
-## 完成标准
+## Completion Criteria
 
-- 执行能够证明本次结果的最小充分验证；风险越高，验证范围越完整。
-- 区分已经观察、合理推断、尚未执行、不可用和被阻塞的结果。
-- 编译通过不等于功能完成；测试替身通过也不等于真实外部集成通过。
-- 达到用户要求后停止，不继续做邻近优化和清理。
+- Perform the smallest sufficient verification that demonstrates this task's result; higher risk requires more comprehensive verification.
+- Distinguish observed results, reasonable inferences, work not yet performed, unavailable verification, and blocked results.
+- A successful build does not establish functional completion; passing with a test double does not establish successful integration with a real external system.
+- Stop once the user's requirements are met; do not continue with adjacent optimization or cleanup.
