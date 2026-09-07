@@ -58,7 +58,11 @@ docs/
 
 ## 需求工件
 
-每个需求使用稳定的 `<change-id>`：
+每个需求使用稳定的 `<change-id>`。新建需求目录默认采用 `YYYY-MM-DD-<short-name>`，例如 `2026-09-07-change-directory-dates`：
+
+- 日期取需求目录首次创建日，不随修改、延期或发布更新。
+- `<short-name>` 是简短且有辨识度的主题名，不能只用日期。
+- 项目已有明确命名规则或稳定需求编号时优先沿用，不强制叠加日期；已有目录不自动补日期或改名。
 
 ```text
 docs/changes/<change-id>/
