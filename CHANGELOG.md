@@ -2,7 +2,7 @@
 
 Cynos Rules 整套通用规则共用一个 SemVer 版本。目标项目把已完整合并的版本记录在 `docs/rules/VERSION`，本仓库在 `main` 为每个正式版本创建 `v<version>` tag。
 
-## 未发布
+## 1.4.0
 
 新建需求目录默认使用 `YYYY-MM-DD-<short-name>`，日期取首次创建日且保持不变；已有项目命名规则或稳定需求编号优先，旧目录不自动改名。
 
