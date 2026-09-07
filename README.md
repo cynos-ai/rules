@@ -60,7 +60,7 @@ Project layout is documented in `project-layout.md`; no empty directories or pla
 Only the complete managed block from the upstream `AGENTS.md` is installed into the active instruction file—not this repository's surrounding instructions:
 
 ```markdown
-<!-- cynos-rules:begin version=1.6.0 -->
+<!-- cynos-rules:begin version=1.6.1 -->
 ## Cynos Rules
 ...
 <!-- cynos-rules:end -->

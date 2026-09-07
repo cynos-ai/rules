@@ -52,7 +52,7 @@ AI 会选择实际生效的项目规则入口（`AGENTS.md`、`CLAUDE.md` 或平
 只有上游 `AGENTS.md` 中的完整托管区块会安装到实际入口，不复制区块外的本仓库说明：
 
 ```markdown
-<!-- cynos-rules:begin version=1.6.0 -->
+<!-- cynos-rules:begin version=1.6.1 -->
 ## Cynos Rules
 ...
 <!-- cynos-rules:end -->
