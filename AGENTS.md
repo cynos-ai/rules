@@ -2,7 +2,7 @@
 
 本仓库维护技术栈无关的项目规则。当前版本记录在 `docs/rules/VERSION`。修改前先阅读 `docs/PROJECT.md`、当前需求目录和与任务相关的 `docs/rules/**`。安装到其他项目时只复制下面的 Cynos Rules 托管区块，不复制本段仓库说明。
 
-<!-- cynos-rules:begin version=1.3.0 -->
+<!-- cynos-rules:begin version=1.4.0 -->
 ## Cynos Rules
 
 ### 按任务读取
